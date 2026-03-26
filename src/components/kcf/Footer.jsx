@@ -31,7 +31,10 @@ export default function Footer() {
   const isHome = location.pathname === "/" || location.pathname === "/Home";
 
   const scrollTo = (href) => {
-    if (!isHome) { navigate("/" + href); return; }
+    if (!isHome) {
+      navigate("/", { state: { scrollTarget: href } });
+      return;
+    }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
