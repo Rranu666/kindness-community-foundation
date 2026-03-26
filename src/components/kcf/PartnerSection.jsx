@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Wrench, Handshake, Store, Users, TrendingUp, ArrowRight } from "lucide-react";
 
 const partners = [
@@ -13,23 +14,7 @@ const partners = [
 export default function PartnerSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  const scrollTo = (href) => {
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    const interval = setInterval(() => {
-      const target = document.querySelector(href);
-      if (target) {
-        clearInterval(interval);
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);
-    setTimeout(() => clearInterval(interval), 5000);
-  };
+  const navigate = useNavigate();
 
   return (
     <section id="partners" className="py-24 lg:py-32" style={{ background: "#050810" }} ref={ref}>
@@ -55,7 +40,7 @@ export default function PartnerSection() {
               and community-first values.
             </p>
             <button
-              onClick={() => scrollTo("#contact")}
+              onClick={() => navigate("/Contact")}
               className="group inline-flex items-center gap-3 px-8 py-4 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg" style={{ background: "linear-gradient(135deg, #f43f5e, #ec4899)" }}
             >
               Contact Us
