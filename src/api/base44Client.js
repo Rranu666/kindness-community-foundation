@@ -199,10 +199,10 @@ const integrations = {
         return { result: 'KindnessConnect is KCF\'s giving platform. Options include: Giving Plans from $5/month, Micro-Donation Roundups (card roundups), and Conscious Shopping Cashback up to 15%. Causes: Hunger, Climate, Clean Water, Education, Health, Ocean Conservation.' };
       }
       if (p.includes('kcf') || p.includes('kindness community') || p.includes('foundation') || p.includes('what is')) {
-        return { result: 'Kindness Community Foundation (KCF) is a California nonprofit founded by Fred A. Behr. Our mission is community stabilization through ethical, technology-assisted volunteer networks. Our pillars: Education, Economic Empowerment, Health & Wellness, Community Development, Environmental Sustainability, and Cultural Preservation.' };
+        return { result: 'Kindness Community Foundation (KCF) is a California nonprofit founded by our Founder. Our mission is community stabilization through ethical, technology-assisted volunteer networks. Our pillars: Education, Economic Empowerment, Health & Wellness, Community Development, Environmental Sustainability, and Cultural Preservation.' };
       }
-      if (p.includes('founder') || p.includes('fred')) {
-        return { result: 'KCF was founded by Fred A. Behr, who built this nonprofit to promote community stabilization, ethical participation, and technology-assisted coordination of volunteer networks.' };
+      if (p.includes('founder')) {
+        return { result: 'KCF was founded by our Founder, who built this nonprofit to promote community stabilization, ethical participation, and technology-assisted coordination of volunteer networks.' };
       }
       if (p.includes('contact') || p.includes('reach') || p.includes('email')) {
         return { result: 'Reach KCF at contact@kindnesscommunityfoundation.com. We\'re based in Newport Beach, California, USA.' };

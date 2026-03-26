@@ -6,7 +6,7 @@ import { base44 } from "@/api/base44Client";
 const SITE_CONTEXT = `
 Kindness Community Foundation (KCF) is a California nonprofit building ethical, technology-assisted volunteer networks, transparent governance, and sustainable community infrastructure.
 
-FOUNDER: Fred A. Behr founded KCF.
+FOUNDER: KCF was founded by the Founder.
 
 MISSION: Promoting community stabilization, ethical participation, and technology-assisted coordination of volunteer and contribution networks.
 

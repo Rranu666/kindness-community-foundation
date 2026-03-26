@@ -236,7 +236,7 @@ export default function Contact() {
                           value={form.name}
                           onChange={handleChange}
                           required
-                          placeholder="Fred Behr"
+                          placeholder="Your name"
                           className="w-full px-4 py-3 rounded-xl text-white text-sm placeholder-white/20 border border-white/[0.08] focus:border-rose-500/40 focus:outline-none transition-all"
                           style={{ background: "rgba(255,255,255,0.04)" }}
                         />
