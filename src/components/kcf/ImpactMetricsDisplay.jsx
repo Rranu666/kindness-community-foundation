@@ -58,8 +58,8 @@ export default function ImpactMetricsDisplay() {
       }
 
       setMetrics(newMetrics);
-    } catch (error) {
-      console.error("Error fetching impact data:", error);
+    } catch {
+      // silently ignore — metrics show last known values
     } finally {
       setLoading(false);
     }
@@ -73,7 +73,8 @@ export default function ImpactMetricsDisplay() {
       fetchImpactData();
     });
 
-    return unsubscribe;
+    if (typeof unsubscribe === 'function') return unsubscribe;
+    return undefined;
   }, []);
 
   const totalImpact = useMemo(() => {

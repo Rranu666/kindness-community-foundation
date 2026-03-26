@@ -26,7 +26,9 @@ export default function GivingDashboard() {
   const [tab, setTab] = useState("Overview");
 
   useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => {});
+    let mounted = true;
+    base44.auth.me().then(u => { if (mounted) setUser(u); }).catch(() => {});
+    return () => { mounted = false; };
   }, []);
 
   const { data: donations = [], isLoading: loadingDon } = useQuery({

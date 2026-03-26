@@ -54,7 +54,7 @@ export default function TaskDashboard({ user }) {
           uploaded_by_email: user.email,
         });
       } catch (error) {
-        console.error('File upload failed:', error);
+        // silently ignore upload error
       }
     }
     setIsUploading(false);

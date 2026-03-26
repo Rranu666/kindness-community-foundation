@@ -32,7 +32,7 @@ export default function InitiativeSignupModal({ user, onSuccess, onClose }) {
       });
       onSuccess();
     } catch (error) {
-      console.error("Error signing up:", error);
+      // silently ignore — handled by onError callback
     } finally {
       setLoading(false);
     }

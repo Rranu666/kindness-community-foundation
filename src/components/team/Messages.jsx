@@ -126,7 +126,7 @@ export default function Messages() {
           file_size: file.size,
         }]);
       } catch (error) {
-        console.error('File upload failed:', error);
+        // silently ignore upload error
       }
     }
     setIsUploading(false);

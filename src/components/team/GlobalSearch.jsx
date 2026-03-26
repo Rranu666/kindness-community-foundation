@@ -39,7 +39,7 @@ export default function GlobalSearch() {
           documents: documents.slice(0, 3),
         });
       } catch (error) {
-        console.error('Search error:', error);
+        // silently ignore search error
       }
       setIsSearching(false);
     };

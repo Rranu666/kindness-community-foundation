@@ -29,7 +29,7 @@ export default function VoiceDictation({ onMessageTranscribed, teamMembers, user
       mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
-      console.error('Error accessing microphone:', error);
+      // silently ignore — mic not available
     }
   };
 
@@ -71,7 +71,7 @@ export default function VoiceDictation({ onMessageTranscribed, teamMembers, user
         setIsTranscribing(false);
       };
     } catch (error) {
-      console.error('Error transcribing message:', error);
+      // silently ignore transcription error
       setIsTranscribing(false);
     }
   };

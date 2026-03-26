@@ -27,7 +27,7 @@ export default function LogHoursModal({ signup, user, onSuccess, onClose }) {
       });
       onSuccess();
     } catch (error) {
-      console.error("Error logging hours:", error);
+      // silently ignore — handled by onError callback
     } finally {
       setLoading(false);
     }

@@ -69,6 +69,16 @@ export default function KindnessConnect() {
   const navigate = useNavigate();
   const [scoreExpanded, setScoreExpanded] = useState(false);
   const [email, setEmail] = useState("");
+  const [signedUp, setSignedUp] = useState(false);
+
+  const handleEarlyAccess = () => {
+    if (!email) return;
+    const subject = encodeURIComponent('KindnessConnect Early Access Request');
+    const body = encodeURIComponent(`I'd like early access to KindnessConnect.\n\nEmail: ${email}`);
+    window.location.href = `mailto:contact@kindnesscommunityfoundation.com?subject=${subject}&body=${body}`;
+    setSignedUp(true);
+    setEmail('');
+  };
 
   return (
     <div style={{ background: "#030712" }} className="text-white overflow-x-hidden">
@@ -145,15 +155,22 @@ export default function KindnessConnect() {
               <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5 text-xl" style={{ background: "rgba(244,63,94,0.15)" }}>🌱</div>
               <h3 className="text-xl font-bold text-white mb-2">Create Free Account</h3>
               <p className="text-white/40 text-sm leading-relaxed mb-6 flex-1">Unlock giving plans, track your impact, set recurring donations, and earn milestone badges.</p>
-              <div className="flex flex-col gap-3">
-                <input type="email" placeholder="Enter your email address" value={email} onChange={e => setEmail(e.target.value)}
-                  className="w-full px-5 py-3.5 rounded-xl border border-white/[0.08] bg-white/3 text-white placeholder-white/25 outline-none focus:border-rose-400/60 text-sm transition-colors" />
-                <button onClick={() => email && alert(`Signed up: ${email}`)} disabled={!email}
-                  className="w-full text-white font-bold px-6 py-3.5 rounded-xl hover:-translate-y-0.5 transition-all duration-300 text-sm disabled:opacity-50"
-                  style={{ background: "linear-gradient(135deg, #f43f5e 0%, #ec4899 100%)" }}>
-                  Get Early Access →
-                </button>
-              </div>
+              {signedUp ? (
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-emerald-300 text-sm font-semibold border border-emerald-500/20" style={{ background: "rgba(16,185,129,0.08)" }}>
+                  ✓ Thanks! Check your email client to complete sign-up.
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <input type="email" placeholder="Enter your email address" value={email} onChange={e => setEmail(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleEarlyAccess()}
+                    className="w-full px-5 py-3.5 rounded-xl border border-white/[0.08] bg-white/3 text-white placeholder-white/25 outline-none focus:border-rose-400/60 text-sm transition-colors" />
+                  <button onClick={handleEarlyAccess} disabled={!email}
+                    className="w-full text-white font-bold px-6 py-3.5 rounded-xl hover:-translate-y-0.5 transition-all duration-300 text-sm disabled:opacity-50"
+                    style={{ background: "linear-gradient(135deg, #f43f5e 0%, #ec4899 100%)" }}>
+                    Get Early Access →
+                  </button>
+                </div>
+              )}
               <p className="text-white/25 text-xs mt-4 text-center">No spam. Unsubscribe any time.</p>
             </motion.div>
 

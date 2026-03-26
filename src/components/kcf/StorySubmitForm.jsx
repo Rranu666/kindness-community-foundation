@@ -75,7 +75,7 @@ Be encouraging and constructive.`,
           });
           setRealTimeAnalysis(result);
         } catch (err) {
-          console.error("Analysis failed:", err);
+          // silently ignore AI analysis failure
         } finally {
           setAnalysisLoading(false);
         }

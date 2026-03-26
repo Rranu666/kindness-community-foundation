@@ -38,7 +38,7 @@ export default function AIMessageAssistant({ action = 'draft', targetPerson, inc
       }
     } catch (err) {
       setError('Failed to get suggestion. Please try again.');
-      console.error(err);
+      // silently ignore AI error
     } finally {
       setLoading(false);
     }

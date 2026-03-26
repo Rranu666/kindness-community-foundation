@@ -44,7 +44,7 @@ export default function VolunteerPersonalDashboard() {
         });
         setTasks(assignedTasks);
       } catch (error) {
-        console.error("Error fetching volunteer data:", error);
+        // silently ignore — loading state handles feedback
       } finally {
         setLoading(false);
       }
