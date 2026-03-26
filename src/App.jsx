@@ -6,6 +6,7 @@ import ScrollToggleButton from '@/components/ScrollToggleButton'
 import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
+import ErrorBoundary from './lib/ErrorBoundary';
 import { AuthProvider } from '@/lib/AuthContext';
 import VolunteerDashboard from './pages/VolunteerDashboard';
 import TeamPortal from './pages/TeamPortal';
@@ -70,16 +71,20 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClientInstance}>
-        <Router>
-          <NavigationTracker />
-          <AppRoutes />
-          <ScrollToggleButton />
-        </Router>
-        <Toaster />
-      </QueryClientProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <QueryClientProvider client={queryClientInstance}>
+          <Router>
+            <NavigationTracker />
+            <ErrorBoundary>
+              <AppRoutes />
+            </ErrorBoundary>
+            <ScrollToggleButton />
+          </Router>
+          <Toaster />
+        </QueryClientProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

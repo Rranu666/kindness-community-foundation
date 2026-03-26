@@ -106,24 +106,43 @@ export default function Analytics() {
     growthRate
   };
 
-  // Check if user is admin
+  // Auth guard
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-        <div className="max-w-7xl mx-auto text-center py-12">
-          <p className="text-gray-600">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#030712' }}>
+        <div className="w-8 h-8 border-4 border-rose-500/30 border-t-rose-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (user.role !== 'admin') {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ background: '#030712' }}>
+        <div className="text-center max-w-sm">
+          <div className="text-5xl mb-4">🔒</div>
+          <h2 className="text-2xl font-black text-white mb-3">Access Restricted</h2>
+          <p className="text-white/50 text-sm leading-relaxed mb-6">
+            The Analytics Dashboard is only available to administrators.
+          </p>
+          <button
+            onClick={() => window.location.href = '/'}
+            className="px-6 py-2.5 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #f43f5e, #ec4899)' }}
+          >
+            Back to Home
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
+    <div className="min-h-screen p-4 md:p-6" style={{ background: '#030712' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2">Analytics Dashboard</h1>
-          <p className="text-gray-600 text-sm md:text-base">Track platform growth and usage patterns</p>
+          <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">Analytics Dashboard</h1>
+          <p className="text-white/50 text-sm md:text-base">Track platform growth and usage patterns</p>
         </div>
 
         {/* Key Metrics Grid */}

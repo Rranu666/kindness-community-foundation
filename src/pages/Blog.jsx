@@ -257,6 +257,17 @@ function BlogPostFull() {
 
 export default function Blog() {
   const [viewPost, setViewPost] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterDone, setNewsletterDone] = useState(false);
+
+  const handleSubscribe = () => {
+    if (!newsletterEmail || !newsletterEmail.includes('@')) return;
+    const subject = encodeURIComponent('Newsletter Subscription Request');
+    const body = encodeURIComponent(`Please add me to the KCF newsletter.\n\nEmail: ${newsletterEmail}`);
+    window.location.href = `mailto:contact@kindnesscommunityfoundation.com?subject=${subject}&body=${body}`;
+    setNewsletterDone(true);
+    setNewsletterEmail('');
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "#030712" }}>
@@ -426,22 +437,33 @@ export default function Blog() {
             <p className="text-white/50 text-base max-w-xl mx-auto mb-8">
               Get the latest stories, impact updates, and insights from the Kindness Community Foundation delivered to your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-5 py-3 rounded-2xl text-white text-sm outline-none border border-white/10 focus:border-rose-500/50 transition-colors"
-                style={{ background: "rgba(255,255,255,0.05)" }}
-              />
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                className="px-6 py-3 rounded-2xl text-white font-bold text-sm flex-shrink-0"
-                style={{ background: "linear-gradient(135deg, #f43f5e, #ec4899)" }}
-              >
-                Subscribe
-              </motion.button>
-            </div>
+            {newsletterDone ? (
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-emerald-300 text-sm font-semibold border border-emerald-500/20" style={{ background: "rgba(16,185,129,0.08)" }}>
+                ✓ Thanks! Your email client should open to complete the subscription.
+              </div>
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <input
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={e => setNewsletterEmail(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSubscribe()}
+                  placeholder="Enter your email"
+                  className="flex-1 px-5 py-3 rounded-2xl text-white text-sm outline-none border border-white/10 focus:border-rose-500/50 transition-colors"
+                  style={{ background: "rgba(255,255,255,0.05)" }}
+                />
+                <motion.button
+                  onClick={handleSubscribe}
+                  disabled={!newsletterEmail || !newsletterEmail.includes('@')}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="px-6 py-3 rounded-2xl text-white font-bold text-sm flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+                  style={{ background: "linear-gradient(135deg, #f43f5e, #ec4899)" }}
+                >
+                  Subscribe
+                </motion.button>
+              </div>
+            )}
           </div>
         </div>
       </AnimBlock>

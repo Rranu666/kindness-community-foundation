@@ -95,16 +95,23 @@ export default function TeamPortal() {
       setTaskModal(false);
       setNewTask({ title: '', description: '' });
     },
+    onError: () => {
+      alert('Failed to create task. Please try again.');
+    },
   });
 
   const updateTaskStatus = useMutation({
     mutationFn: ({ id, status }) => base44.entities.TeamTask.update(id, { status }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
+    onError: () => {
+      alert('Failed to update task status. Please try again.');
+    },
   });
 
   const markNotifRead = useMutation({
     mutationFn: (id) => base44.entities.Notification.update(id, { is_read: true }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['notifications'] }),
+    onError: () => { /* silently ignore notification read failures */ },
   });
 
   const unreadCount = notifications.filter(n => !n.is_read).length;

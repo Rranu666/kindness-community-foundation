@@ -39,8 +39,8 @@ export default function GlobalProgressBar() {
 
         const total = donations.reduce((sum, d) => sum + (d.amount || 0), 0);
         setTotalForCause(total);
-      } catch (error) {
-        console.error("Error fetching donations:", error);
+      } catch {
+        // silently ignore — progress bar shows last known value
       } finally {
         setLoading(false);
       }
@@ -55,7 +55,8 @@ export default function GlobalProgressBar() {
       }
     });
 
-    return unsubscribe;
+    if (typeof unsubscribe === 'function') return unsubscribe;
+    return undefined;
   }, [currentMilestone.cause]);
 
   const rotateMilestone = () => {
