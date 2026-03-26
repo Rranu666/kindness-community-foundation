@@ -50,27 +50,32 @@ export default function Header() {
   useEffect(() => {
     if (isHome && location.state?.scrollTarget) {
       const target = location.state.scrollTarget;
-      // Clear the state immediately so it doesn't re-trigger
       navigate(location.pathname, { replace: true, state: {} });
       setTimeout(() => {
-        const el = document.querySelector(target);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-          return;
-        }
-        // Element not yet in DOM (lazy section) — scroll to bottom to trigger render, then retry
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-        const interval = setInterval(() => {
-          const t = document.querySelector(target);
-          if (t) {
-            clearInterval(interval);
-            t.scrollIntoView({ behavior: "smooth" });
-          }
-        }, 100);
-        setTimeout(() => clearInterval(interval), 5000);
+        scrollToLazy(target);
       }, 150);
     }
   }, [isHome, location.state]);
+
+  // Scroll to a hash target, chasing the page bottom as lazy sections expand
+  const scrollToLazy = (target) => {
+    const el = document.querySelector(target);
+    if (el) { el.scrollIntoView({ behavior: "smooth" }); return; }
+
+    // Keep scrolling to the current scrollHeight — it grows as lazy sections render
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" });
+    const interval = setInterval(() => {
+      const t = document.querySelector(target);
+      if (t) {
+        clearInterval(interval);
+        t.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+      // Chase the growing bottom so every new lazy section enters the viewport
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" });
+    }, 100);
+    setTimeout(() => clearInterval(interval), 8000);
+  };
 
   const scrollTo = (href) => {
     setMobileOpen(false);
@@ -78,21 +83,7 @@ export default function Header() {
       navigate("/", { state: { scrollTarget: href } });
       return;
     }
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    // Element not yet in DOM (lazy section) — scroll to bottom to trigger render, then retry
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    const interval = setInterval(() => {
-      const target = document.querySelector(href);
-      if (target) {
-        clearInterval(interval);
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);
-    setTimeout(() => clearInterval(interval), 5000);
+    scrollToLazy(href);
   };
 
   return (
