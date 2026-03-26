@@ -30,8 +30,22 @@ export default function AIChat({ currentUser }) {
     setMessages(prev => [...prev, { role: 'user', text: msg, id: Date.now() }]);
     setLoading(true);
     try {
-      const res = await base44.functions.invoke('aiMessageAssistant', { action: 'chat', userMessage: msg });
-      const reply = res.data?.data || res.data?.error || 'Sorry, I could not process that.';
+      const res = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are the AI Assistant for Kindness Community Foundation (KCF) — a California nonprofit building ethical, technology-assisted volunteer networks.
+
+KCF INFO:
+- Founder: Fred A. Behr
+- Mission: Community stabilization, ethical participation, technology-assisted volunteer coordination
+- Pillars: Education, Economic Empowerment, Health & Wellness, Community Development, Environmental Sustainability, Cultural Preservation
+- Initiatives: Volunteer Network (badges: First Steps 5hrs, Champion 25hrs, Leader 50hrs, Ambassador 100hrs, Lifetime 250hrs), KindnessConnect (giving platform: $5/mo plans, card roundups, 15% cashback), Community Stories, Team Portal (Synergy Hub), Analytics, Governance
+- Contact: contact@kindnesscommunityfoundation.com | California, USA
+- Apps: KindWave App, ServiceConnectPro.ai, FreeAppMaker.ai
+
+Answer helpfully and warmly. If unrelated to KCF, you can still help as a general assistant.
+
+USER: ${msg}`,
+      });
+      const reply = (typeof res === 'string' ? res : res?.result || res?.response) || 'Sorry, I could not process that.';
       setMessages(prev => [...prev, { role: 'ai', text: reply, id: Date.now() + 1 }]);
     } catch {
       setMessages(prev => [...prev, { role: 'ai', text: 'Something went wrong. Please try again.', id: Date.now() + 1 }]);

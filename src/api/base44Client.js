@@ -166,9 +166,55 @@ const auth = {
 const integrations = {
   Core: {
     async InvokeLLM({ prompt, response_json_schema } = {}) {
-      console.warn('[KCF] InvokeLLM stub — connect a real LLM endpoint.');
+      // Use OpenAI if API key is configured in Netlify env vars
+      const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
+      if (openaiKey) {
+        try {
+          const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${openaiKey}` },
+            body: JSON.stringify({
+              model: 'gpt-3.5-turbo',
+              messages: [{ role: 'user', content: prompt }],
+              max_tokens: 500,
+            }),
+          });
+          const data = await resp.json();
+          const text = data.choices?.[0]?.message?.content;
+          if (text) return response_json_schema ? {} : { result: text };
+        } catch { /* fall through to context-based responses */ }
+      }
+
       if (response_json_schema) return {};
-      return { result: 'AI features require a configured LLM endpoint.' };
+
+      // KCF context-based fallback responses
+      const p = (prompt || '').toLowerCase();
+      if (p.includes('initiative') || p.includes('program')) {
+        return { result: 'KCF has 6 key initiatives: (1) Volunteer Network — sign up, log hours, earn badges; (2) KindnessConnect — giving plans from $5/mo, roundups, 15% cashback; (3) Community Stories; (4) Team Portal (Synergy Hub); (5) Analytics Dashboard; and (6) Governance framework.' };
+      }
+      if (p.includes('volunteer') || p.includes('badge') || p.includes('hours')) {
+        return { result: 'You can volunteer through KCF by signing up for initiatives and logging hours. Earn badges: First Steps (5hrs), Champion (25hrs), Leader (50hrs), Ambassador (100hrs), Lifetime (250hrs)! Sign up at kindness-community-ai.netlify.app/KindnessConnect.' };
+      }
+      if (p.includes('donat') || p.includes('giving') || p.includes('kindnessconnect')) {
+        return { result: 'KindnessConnect is KCF\'s giving platform. Options include: Giving Plans from $5/month, Micro-Donation Roundups (card roundups), and Conscious Shopping Cashback up to 15%. Causes: Hunger, Climate, Clean Water, Education, Health, Ocean Conservation.' };
+      }
+      if (p.includes('kcf') || p.includes('kindness community') || p.includes('foundation') || p.includes('what is')) {
+        return { result: 'Kindness Community Foundation (KCF) is a California nonprofit founded by Fred A. Behr. Our mission is community stabilization through ethical, technology-assisted volunteer networks. Our pillars: Education, Economic Empowerment, Health & Wellness, Community Development, Environmental Sustainability, and Cultural Preservation.' };
+      }
+      if (p.includes('founder') || p.includes('fred')) {
+        return { result: 'KCF was founded by Fred A. Behr, who built this nonprofit to promote community stabilization, ethical participation, and technology-assisted coordination of volunteer networks.' };
+      }
+      if (p.includes('contact') || p.includes('reach') || p.includes('email')) {
+        return { result: 'Reach KCF at contact@kindnesscommunityfoundation.com. We\'re based in Newport Beach, California, USA.' };
+      }
+      if (p.includes('social wall') || p.includes('post') || p.includes('feed')) {
+        return { result: 'The Social Wall is your team\'s community feed inside the Synergy Hub. You can post updates, share achievements, and engage with teammates. Head to Social Wall in the left navigation to get started!' };
+      }
+      if (p.includes('serviceconnect') || p.includes('freeapp') || p.includes('kindwave')) {
+        return { result: 'KCF\'s tech products include: KindWave App (community kindness app), ServiceConnectPro.ai (AI-powered service connection), and FreeAppMaker.ai (build apps for free). All are part of KCF\'s mission to use technology for community good.' };
+      }
+
+      return { result: 'I\'m the KCF AI Assistant! I can help with questions about Kindness Community Foundation, our volunteer programs, giving initiatives, and more. For full AI capabilities, add a VITE_OPENAI_API_KEY in your Netlify environment variables. What would you like to know about KCF?' };
     },
 
     async UploadFile({ file }) {
