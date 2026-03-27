@@ -43,8 +43,10 @@ export default function SiteSearch({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const [listening, setListening] = useState(false);
   const [micSupported, setMicSupported] = useState(false);
+  const [micError, setMicError] = useState("");
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
+  const micErrorTimerRef = useRef(null);
 
   useEffect(() => {
     setMicSupported("webkitSpeechRecognition" in window || "SpeechRecognition" in window);
@@ -55,6 +57,7 @@ export default function SiteSearch({ isOpen, onClose }) {
       setTimeout(() => inputRef.current?.focus(), 100);
       setQuery("");
       setAnswer("");
+      setMicError("");
     }
   }, [isOpen]);
 
@@ -83,23 +86,50 @@ Answer in 2-4 sentences max. Be warm and use KCF's tone of kindness and communit
     setLoading(false);
   };
 
+  const showMicError = (msg) => {
+    setMicError(msg);
+    if (micErrorTimerRef.current) clearTimeout(micErrorTimerRef.current);
+    micErrorTimerRef.current = setTimeout(() => setMicError(""), 4000);
+  };
+
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) return;
+    if (!SpeechRecognition) {
+      showMicError("Voice search is not supported in this browser.");
+      return;
+    }
+    setMicError("");
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
     recognition.onstart = () => setListening(true);
     recognition.onend = () => setListening(false);
-    recognition.onerror = () => setListening(false);
+    recognition.onerror = (e) => {
+      setListening(false);
+      const errorMessages = {
+        "not-allowed":        "Mic access denied — allow microphone in browser settings.",
+        "permission-denied":  "Mic access denied — allow microphone in browser settings.",
+        "no-speech":          "No speech detected — please try again.",
+        "network":            "Network error — please check your connection.",
+        "service-not-allowed":"Voice search is unavailable on this browser.",
+        "audio-capture":      "No microphone found — please connect a mic.",
+        "aborted":            "",  // user cancelled, no message needed
+      };
+      const msg = errorMessages[e.error] ?? "Voice search failed — please try typing instead.";
+      if (msg) showMicError(msg);
+    };
     recognition.onresult = (e) => {
       const transcript = e.results[0][0].transcript;
       setQuery(transcript);
       handleSearch(transcript);
     };
     recognitionRef.current = recognition;
-    recognition.start();
+    try {
+      recognition.start();
+    } catch {
+      showMicError("Could not start voice search — please try typing instead.");
+    }
   };
 
   const stopListening = () => {
@@ -169,6 +199,14 @@ Answer in 2-4 sentences max. Be warm and use KCF's tone of kindness and communit
               </div>
             </div>
 
+            {/* Mic error banner */}
+            {micError && (
+              <div className="px-5 py-2 bg-red-50 border-b border-red-100 flex items-center gap-2 text-red-600 text-xs">
+                <MicOff className="w-3.5 h-3.5 flex-shrink-0" />
+                {micError}
+              </div>
+            )}
+
             {/* Content */}
             <div className="max-h-[60vh] overflow-y-auto">
               {/* Listening indicator */}
@@ -235,7 +273,7 @@ Answer in 2-4 sentences max. Be warm and use KCF's tone of kindness and communit
             {/* Footer */}
             <div className="px-5 py-3 border-t border-slate-100 flex items-center justify-between">
               <span className="text-xs text-slate-400">Press <kbd className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">Enter</kbd> to search · <kbd className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono">Esc</kbd> to close</span>
-              {micSupported && <span className="text-xs text-slate-400 flex items-center gap-1"><Mic className="w-3 h-3" /> Voice search available</span>}
+              {micSupported && !micError && <span className="text-xs text-slate-400 flex items-center gap-1"><Mic className="w-3 h-3" /> Voice search available</span>}
             </div>
           </motion.div>
         </motion.div>
