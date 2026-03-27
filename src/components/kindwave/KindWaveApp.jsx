@@ -318,7 +318,7 @@ function OnboardSplash({ onNext }) {
   const [show, setShow] = useState(false);
   useEffect(() => { const t = setTimeout(() => setShow(true), 200); return () => clearTimeout(t); }, []);
   return (
-    <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100%", padding: "40px 28px", textAlign: "center", overflow: "hidden" }}>
+    <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", minHeight: "100%", padding: "48px 28px 40px", textAlign: "center" }}>
       <ParticleCanvas />
       <OrbBg />
       <div style={{ position: "relative", zIndex: 1, opacity: show ? 1 : 0, transition: "opacity .6s" }}>
