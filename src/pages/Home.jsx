@@ -58,7 +58,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ background: "#030712", fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div id="home" className="min-h-screen" style={{ background: "#030712", fontFamily: "'Inter', system-ui, sans-serif" }}>
       <AmbientBackground />
       <Header />
       <main id="main-content">

@@ -59,6 +59,8 @@ export default function Header() {
 
   // Scroll to a hash target — anchor divs are always in the DOM so this works instantly
   const scrollToLazy = (target) => {
+    // #home always scrolls to the very top
+    if (target === "#home") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     const el = document.querySelector(target);
     if (el) { el.scrollIntoView({ behavior: "smooth" }); return; }
     // Fallback: retry once after a short delay (e.g. fresh page load)
