@@ -8,7 +8,7 @@ import KCFLogo from "./KCFLogo";
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "KindWave", href: "/KindWaveApp", external: true, highlight: true },
-  { label: "Serve", href: "/KindnessConnect", external: true },
+  { label: "Serve", href: "/servekindness", external: true },
   { label: "Initiatives", href: "#initiatives" },
   {
     label: "About",

@@ -103,7 +103,7 @@ export default function GivingDashboard() {
         <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mb-10">
           <div className="flex items-center gap-3 text-rose-400 text-xs font-bold tracking-[0.14em] uppercase mb-3">
             <span className="w-7 h-0.5 bg-rose-400" />
-            <Link to="/KindnessConnect" className="hover:text-rose-300 transition-colors">KindnessConnect</Link>
+            <Link to="/servekindness" className="hover:text-rose-300 transition-colors">KindnessConnect</Link>
             <span className="text-white/20">›</span>
             <span>My Dashboard</span>
           </div>

@@ -225,7 +225,7 @@ function BlogPostFull() {
         {/* CTA */}
         <AnimBlock delay={0.6}>
           <div className="flex flex-col sm:flex-row gap-4 mt-10 pt-10 border-t border-white/[0.07]">
-            <Link to="/KindnessConnect">
+            <Link to="/servekindness">
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}

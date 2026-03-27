@@ -54,6 +54,7 @@ function AppRoutes() {
       } />
       <Route path="/TeamPortalLanding" element={<TeamPortalLanding />} />
       <Route path="/TeamPortal" element={<TeamPortal />} />
+      <Route path="/servekindness" element={<KindnessConnect />} />
       <Route path="/KindnessConnect" element={<KindnessConnect />} />
       <Route path="/GivingDashboard" element={<GivingDashboard />} />
       <Route path="/Blog" element={<Blog />} />
