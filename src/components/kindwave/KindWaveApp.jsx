@@ -792,7 +792,7 @@ function Onboarding({ onComplete }) {
   const showSkip = step >= 2 && step <= 5;
 
   return (
-    <div style={{ height: "calc(100vh - var(--kw-offset, 0px))", display: "flex", flexDirection: "column", background: T.deep, fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", overflow: "hidden" }}>
+    <div style={{ height: "calc(100vh - var(--kw-offset, 0px))", display: "flex", flexDirection: "column", fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", overflow: "hidden" }}>
       <style>{CSS}</style>
 
       {/* Top progress bar (steps 2–6) */}
@@ -1964,7 +1964,7 @@ export default function KindWaveApp() {
   };
 
   return (
-    <div style={{ height: "calc(100vh - var(--kw-offset, 0px))", display: "flex", flexDirection: "column", background: T.deep, fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", position: "relative", overflow: "hidden" }}>
+    <div style={{ height: "calc(100vh - var(--kw-offset, 0px))", display: "flex", flexDirection: "column", fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", position: "relative", overflow: "hidden" }}>
       <style>{CSS}</style>
 
       {/* Notifications */}
