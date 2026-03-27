@@ -14,10 +14,11 @@ export default function KindWaveAppPage() {
   }, []);
 
   return (
-    <div style={{ background: "#02040f", width: "100%", overflow: "hidden" }}>
+    // --kw-offset is read by KindWaveApp's root containers via calc(100vh - var(--kw-offset, 0px))
+    <div style={{ background: "#02040f", width: "100%", "--kw-offset": "80px" }}>
       <Header />
-      {/* paddingTop: 80px clears the fixed header so the app renders below it */}
-      <div style={{ paddingTop: "80px", height: "100vh", width: "100%" }}>
+      {/* paddingTop: 80px clears the fixed header; no height set — KindWaveApp owns its own height */}
+      <div style={{ paddingTop: "80px", width: "100%", overflow: "hidden" }}>
         <KindWaveApp />
       </div>
       <Footer hideCta />

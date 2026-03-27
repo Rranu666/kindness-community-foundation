@@ -119,6 +119,7 @@ input,textarea,button{font-family:'Plus Jakarta Sans',sans-serif}
 @keyframes callPulse {0%,100%{box-shadow:0 0 0 0 rgba(29,233,155,.5)} 50%{box-shadow:0 0 0 16px rgba(29,233,155,0)}}
 @keyframes shieldFloat{0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)}}
 @keyframes heatIn    {from{opacity:0;transform:scale(.7)} to{opacity:1;transform:scale(1)}}
+@keyframes pulseRing {0%{box-shadow:0 0 0 0 rgba(0,232,180,.55),0 4px 26px rgba(0,232,180,.22)} 70%{box-shadow:0 0 0 18px rgba(0,232,180,0),0 4px 26px rgba(0,232,180,.22)} 100%{box-shadow:0 0 0 0 rgba(0,232,180,0),0 4px 26px rgba(0,232,180,.22)}}
 
 .fu{animation:fadeUp  .52s cubic-bezier(.22,1,.36,1) both}
 .si{animation:scaleIn .4s  cubic-bezier(.22,1,.36,1) both}
@@ -135,8 +136,9 @@ input,textarea,button{font-family:'Plus Jakarta Sans',sans-serif}
 .hov     {transition:transform .22s,box-shadow .22s}
 .hov:hover{transform:translateY(-3px)}
 .btn-p   {background:linear-gradient(135deg,${T.teal},${T.tealDim});color:${T.deep};border:none;border-radius:16px;padding:16px 28px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 26px ${T.tealGlow};transition:transform .12s,box-shadow .15s;width:100%}
-.btn-p:hover{transform:translateY(-1px);box-shadow:0 8px 34px rgba(0,232,180,.36)}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 8px 34px rgba(0,232,180,.42),0 0 0 1px rgba(0,232,180,.2)}
 .btn-p:active{transform:scale(.962)}
+.btn-pulse{animation:pulseRing 2.2s ease-out infinite}
 .btn-s   {background:rgba(255,255,255,.05);border:1px solid ${T.border};border-radius:16px;padding:15px 28px;font-size:15px;font-weight:600;color:${T.muted};cursor:pointer;width:100%;transition:all .2s}
 .btn-s:hover{border-color:${T.borderHi};color:${T.white};background:rgba(0,232,180,.08)}
 .inp     {width:100%;background:rgba(255,255,255,.04);border:1px solid ${T.border};border-radius:14px;padding:14px 18px;color:${T.white};font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
@@ -364,30 +366,30 @@ function OnboardSplash({ onNext }) {
           </div>
         </div>
 
-        <h1 className="fu" style={{ fontFamily: "'Syne',sans-serif", fontSize: 52, fontWeight: 800, lineHeight: 1.05, color: T.white, marginBottom: 6 }}>
+        <h1 className="fu" style={{ fontFamily: "'Syne',sans-serif", fontSize: 56, fontWeight: 800, lineHeight: 1.05, letterSpacing: -1.5, color: T.white, marginBottom: 6, textShadow: `0 0 40px rgba(0,232,180,.18)` }}>
           Help Others
         </h1>
-        <h1 className="fu d1" style={{ fontFamily: "'Syne',sans-serif", fontSize: 52, fontWeight: 800, lineHeight: 1.05, background: `linear-gradient(90deg,${T.teal},${T.violet})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", marginBottom: 28 }}>
+        <h1 className="fu d1" style={{ fontFamily: "'Syne',sans-serif", fontSize: 56, fontWeight: 800, lineHeight: 1.05, letterSpacing: -1.5, background: `linear-gradient(90deg,${T.teal},${T.violet})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", marginBottom: 28 }}>
           Heal Yourself
         </h1>
 
-        <p className="fu d2" style={{ color: T.muted, fontSize: 17, lineHeight: 1.72, maxWidth: 300, margin: "0 auto 40px" }}>
+        <p className="fu d2" style={{ color: "#6b9fc2", fontSize: 17, lineHeight: 1.72, maxWidth: 300, margin: "0 auto 36px" }}>
           A GPS-powered community of kindness — where giving is the fastest path to healing.
         </p>
 
         {/* Category dots */}
-        <div className="fu d3" style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginBottom: 44 }}>
+        <div className="fu d3" style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 40 }}>
           {CATS.map(c => (
-            <span key={c.id} style={{ display: "flex", alignItems: "center", gap: 6, background: `${c.color}14`, border: `1px solid ${c.color}30`, borderRadius: 20, padding: "6px 14px", color: c.color, fontSize: 12, fontWeight: 600 }}>
+            <span key={c.id} style={{ display: "flex", alignItems: "center", gap: 6, background: `${c.color}18`, border: `1px solid ${c.color}50`, borderRadius: 20, padding: "8px 16px", color: c.color, fontSize: 13, fontWeight: 600, boxShadow: `0 0 12px ${c.color}25` }}>
               {c.emoji} {c.id}
             </span>
           ))}
         </div>
 
-        <button className="btn-p press fu d4" onClick={onNext} style={{ animation: "glow 3s ease-in-out infinite, fadeUp .52s .3s both", marginBottom: 14 }}>
+        <button className="btn-p press btn-pulse fu d4" onClick={onNext} style={{ marginBottom: 14 }}>
           Begin Your Journey ✦
         </button>
-        <p className="fu d5" style={{ color: T.muted, fontSize: 11 }}>KCF LLC · California, USA · v3.0</p>
+        <p className="fu d5" style={{ color: "#6b9fc2", fontSize: 11 }}>KCF LLC · California, USA · v3.0</p>
       </div>
     </div>
   );
@@ -409,15 +411,15 @@ function OnboardValueProp({ onNext }) {
       {/* Progress dots */}
       <div style={{ display: "flex", gap: 6, marginBottom: 36, position: "relative", zIndex: 1 }}>
         {cards.map((_, i) => (
-          <div key={i} style={{ flex: i === idx ? 2 : 1, height: 4, borderRadius: 2, background: i <= idx ? T.teal : T.border, transition: "all .4s" }} />
+          <div key={i} style={{ flex: i === idx ? 2 : 1, height: 6, borderRadius: 3, background: i <= idx ? T.teal : T.border, transition: "all .4s", boxShadow: i === idx ? `0 0 10px ${T.teal}` : "none" }} />
         ))}
       </div>
 
       <div style={{ flex: 1, position: "relative", zIndex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <TiltCard key={idx} style={{ background: T.panel, border: `1px solid ${c.color}30`, borderRadius: 26, padding: "40px 28px", textAlign: "center", marginBottom: 32, boxShadow: `0 24px 60px rgba(0,0,0,.45), 0 0 40px ${c.color}14` }}>
-          <div style={{ fontSize: 72, marginBottom: 24, animation: "float3d 6s ease-in-out infinite", display: "inline-block", filter: `drop-shadow(0 0 20px ${c.color}55)` }}>{c.emoji}</div>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: T.white, marginBottom: 14, lineHeight: 1.2 }}>{c.title}</h2>
-          <p style={{ color: T.muted, fontSize: 15, lineHeight: 1.75 }}>{c.body}</p>
+        <TiltCard key={idx} style={{ background: T.panel, border: `1.5px solid ${c.color}60`, borderRadius: 26, padding: "40px 28px", textAlign: "center", marginBottom: 32, boxShadow: `0 24px 60px rgba(0,0,0,.55), 0 0 50px ${c.color}18, inset 0 1px 0 rgba(255,255,255,.06)` }}>
+          <div style={{ fontSize: 84, marginBottom: 24, animation: "float3d 6s ease-in-out infinite", display: "inline-block", filter: `drop-shadow(0 0 28px ${c.color}80)` }}>{c.emoji}</div>
+          <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 30, fontWeight: 800, color: T.white, marginBottom: 14, lineHeight: 1.2 }}>{c.title}</h2>
+          <p style={{ color: "#6b9fc2", fontSize: 15, lineHeight: 1.75 }}>{c.body}</p>
         </TiltCard>
 
         <div style={{ display: "flex", gap: 10 }}>
@@ -452,9 +454,9 @@ function OnboardAuth({ onNext, profile, setProfile }) {
     <div style={{ display: "flex", flexDirection: "column", padding: "48px 24px 32px", minHeight: "100%", position: "relative" }}>
       <OrbBg cols={[T.teal, T.emerald]} />
       <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <p className="fu" style={{ color: T.muted, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 1 of 4</p>
+        <p className="fu" style={{ color: T.tealDim, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 1 of 4</p>
         <h2 className="fu d1" style={{ fontFamily: "'Syne',sans-serif", fontSize: 32, fontWeight: 800, color: T.white, marginBottom: 8 }}>How would you<br />like to continue?</h2>
-        <p className="fu d2" style={{ color: T.muted, fontSize: 14, marginBottom: 36 }}>No passwords required. We respect your privacy.</p>
+        <p className="fu d2" style={{ color: "#6b9fc2", fontSize: 14, marginBottom: 36 }}>No passwords required. We respect your privacy.</p>
 
         {mode === "options" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -510,9 +512,9 @@ function OnboardGoal({ onNext, profile, setProfile }) {
     <div style={{ display: "flex", flexDirection: "column", padding: "48px 24px 32px", minHeight: "100%", position: "relative" }}>
       <OrbBg cols={[T.violet, T.teal, T.warm]} />
       <div style={{ position: "relative", zIndex: 1, flex: 1 }}>
-        <p className="fu" style={{ color: T.muted, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 2 of 4</p>
+        <p className="fu" style={{ color: T.tealDim, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 2 of 4</p>
         <h2 className="fu d1" style={{ fontFamily: "'Syne',sans-serif", fontSize: 30, fontWeight: 800, color: T.white, marginBottom: 8, lineHeight: 1.2 }}>What brings you<br />to KindWave?</h2>
-        <p className="fu d2" style={{ color: T.muted, fontSize: 14, marginBottom: 32 }}>We'll personalise your experience.</p>
+        <p className="fu d2" style={{ color: "#6b9fc2", fontSize: 14, marginBottom: 32 }}>We'll personalise your experience.</p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 13 }}>
           {goals.map((g, i) => {
@@ -547,22 +549,22 @@ function OnboardCategories({ onNext, profile, setProfile }) {
     onNext();
   };
   return (
-    <div style={{ display: "flex", flexDirection: "column", padding: "48px 24px 24px", minHeight: "100%", position: "relative" }}>
+    <div style={{ display: "flex", flexDirection: "column", padding: "48px 24px 24px", minHeight: "100%", position: "relative", overflow: "hidden" }}>
       <OrbBg cols={[T.warm, T.emerald, T.violet]} />
-      <div style={{ position: "relative", zIndex: 1, flex: 1 }}>
-        <p className="fu" style={{ color: T.muted, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 3 of 4</p>
+      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <p className="fu" style={{ color: T.tealDim, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 3 of 4</p>
         <h2 className="fu d1" style={{ fontFamily: "'Syne',sans-serif", fontSize: 30, fontWeight: 800, color: T.white, marginBottom: 8 }}>What kinds of help<br />resonate with you?</h2>
-        <p className="fu d2" style={{ color: T.muted, fontSize: 14, marginBottom: 28 }}>Pick all that apply — you can change anytime.</p>
+        <p className="fu d2" style={{ color: "#6b9fc2", fontSize: 14, marginBottom: 20 }}>Pick all that apply — you can change anytime.</p>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1, overflowY: "auto", paddingBottom: 4 }}>
           {CATS.map((c, i) => {
             const on = sel.includes(c.id);
             return (
-              <button key={c.id} className="press" onClick={() => toggle(c.id)} style={{ display: "flex", alignItems: "center", gap: 14, background: on ? `${c.color}14` : "rgba(255,255,255,.025)", border: `1px solid ${on ? c.color : T.border}`, borderRadius: 16, padding: "14px 18px", animation: `fadeUp .45s ${.06 + i * .08}s both`, transition: "background .2s, border-color .2s, box-shadow .2s", boxShadow: on ? `0 0 20px ${c.color}22` : "none", textAlign: "left", width: "100%" }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: on ? `${c.color}28` : `${c.color}10`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0, transition: "all .2s", boxShadow: on ? `0 0 14px ${c.color}40` : "none" }}>{c.emoji}</div>
+              <button key={c.id} className="press" onClick={() => toggle(c.id)} style={{ display: "flex", alignItems: "center", gap: 14, background: on ? `linear-gradient(135deg,${c.color}22,${c.color}0a)` : "rgba(255,255,255,.025)", border: `1px solid ${on ? c.color : T.border}`, borderRadius: 16, padding: "14px 18px", animation: `fadeUp .45s ${.06 + i * .08}s both`, transition: "background .2s, border-color .2s, box-shadow .2s", boxShadow: on ? `0 0 24px ${c.color}30, inset 0 0 12px ${c.color}08` : "none", textAlign: "left", width: "100%", flexShrink: 0 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: on ? `${c.color}35` : `${c.color}10`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0, transition: "all .2s", boxShadow: on ? `0 0 16px ${c.color}50` : "none" }}>{c.emoji}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ color: on ? c.color : T.white, fontWeight: 700, fontSize: 15, transition: "color .2s" }}>{c.label}</div>
-                  <div style={{ color: T.muted, fontSize: 12, marginTop: 2 }}>{c.desc}</div>
+                  <div style={{ color: "#6b9fc2", fontSize: 12, marginTop: 2 }}>{c.desc}</div>
                 </div>
                 <div style={{ width: 24, height: 24, borderRadius: "50%", background: on ? c.color : "transparent", border: `2px solid ${on ? c.color : T.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all .22s" }}>
                   {on && <span style={{ color: T.deep, fontSize: 13, fontWeight: 800 }}>✓</span>}
@@ -572,7 +574,7 @@ function OnboardCategories({ onNext, profile, setProfile }) {
           })}
         </div>
       </div>
-      <button className="btn-p press" onClick={next} style={{ marginTop: 24, position: "relative", zIndex: 1 }}>
+      <button className="btn-p press" onClick={next} style={{ marginTop: 16, position: "relative", zIndex: 1, flexShrink: 0 }}>
         {sel.length > 0 ? `Continue (${sel.length} selected) →` : "Skip for now →"}
       </button>
     </div>
@@ -591,9 +593,9 @@ function OnboardProfile({ onNext, profile, setProfile }) {
     <div style={{ display: "flex", flexDirection: "column", padding: "48px 24px 24px", minHeight: "100%", position: "relative" }}>
       <OrbBg cols={[T.teal, T.emerald]} />
       <div style={{ position: "relative", zIndex: 1, flex: 1 }}>
-        <p className="fu" style={{ color: T.muted, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 4 of 4</p>
+        <p className="fu" style={{ color: T.tealDim, fontSize: 12, fontWeight: 700, letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 8 }}>Step 4 of 4</p>
         <h2 className="fu d1" style={{ fontFamily: "'Syne',sans-serif", fontSize: 30, fontWeight: 800, color: T.white, marginBottom: 8 }}>Create your<br />identity</h2>
-        <p className="fu d2" style={{ color: T.muted, fontSize: 14, marginBottom: 28 }}>Quick and optional — you can update anytime.</p>
+        <p className="fu d2" style={{ color: "#6b9fc2", fontSize: 14, marginBottom: 28 }}>Quick and optional — you can update anytime.</p>
 
         {/* Avatar selection */}
         <div className="fu d2" style={{ marginBottom: 24 }}>
@@ -790,7 +792,7 @@ function Onboarding({ onComplete }) {
   const showSkip = step >= 2 && step <= 5;
 
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column", background: T.deep, fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", overflow: "hidden" }}>
+    <div style={{ height: "calc(100vh - var(--kw-offset, 0px))", display: "flex", flexDirection: "column", background: T.deep, fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", overflow: "hidden" }}>
       <style>{CSS}</style>
 
       {/* Top progress bar (steps 2–6) */}
@@ -1962,7 +1964,7 @@ export default function KindWaveApp() {
   };
 
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column", background: T.deep, fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", position: "relative", overflow: "hidden" }}>
+    <div style={{ height: "calc(100vh - var(--kw-offset, 0px))", display: "flex", flexDirection: "column", background: T.deep, fontFamily: "'Plus Jakarta Sans',sans-serif", color: T.white, width: "100%", position: "relative", overflow: "hidden" }}>
       <style>{CSS}</style>
 
       {/* Notifications */}
