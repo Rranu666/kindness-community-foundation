@@ -53,7 +53,7 @@ export default function Home() {
     const timeout = setTimeout(() => {
       const el = document.querySelector(hash);
       if (el) el.scrollIntoView({ behavior: "smooth" });
-    }, 600);
+    }, 800);
     return () => clearTimeout(timeout);
   }, []);
 

@@ -58,33 +58,25 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handler);
   }, [openSubmenu]);
 
-  useEffect(() => {
-    if (isHome && location.state?.scrollTarget) {
-      const target = location.state.scrollTarget;
-      navigate(location.pathname, { replace: true, state: {} });
-      setTimeout(() => {
-        scrollToLazy(target);
-      }, 150);
-    }
-  }, [isHome, location.state]);
-
-  // Scroll to a hash target — anchor divs are always in the DOM so this works instantly
+  // Scroll to a hash target on the home page
   const scrollToLazy = (target) => {
     // #home always scrolls to the very top
     if (target === "#home") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     const el = document.querySelector(target);
     if (el) { el.scrollIntoView({ behavior: "smooth" }); return; }
-    // Fallback: retry once after a short delay (e.g. fresh page load)
+    // Fallback: retry once after lazy sections have mounted
     setTimeout(() => {
       const el2 = document.querySelector(target);
       if (el2) el2.scrollIntoView({ behavior: "smooth" });
-    }, 400);
+    }, 500);
   };
 
   const scrollTo = (href) => {
     setMobileOpen(false);
     if (!isHome) {
-      navigate("/", { state: { scrollTarget: href } });
+      // Navigate to home with the hash in the URL — Home.jsx handles the scroll
+      // with an 800ms delay (enough for lazy sections to load their correct heights)
+      navigate(`/${href}`);
       return;
     }
     scrollToLazy(href);
