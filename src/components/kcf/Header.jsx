@@ -7,7 +7,7 @@ import KCFLogo from "./KCFLogo";
 
 const navLinks = [
   { label: "Home", href: "#home" },
-  { label: "KindWave", href: "/KindWaveApp", external: true, highlight: true },
+  { label: "KindWave", href: "/kindwave", external: true, highlight: true },
   { label: "Serve", href: "/servekindness", external: true },
   { label: "Initiatives", href: "#initiatives" },
   {
@@ -18,8 +18,8 @@ const navLinks = [
       { label: "Partners", href: "#partners" },
     ],
   },
-  { label: "Blog", href: "/Blog", external: true },
-  { label: "Contact", href: "/Contact", external: true },
+  { label: "Blog", href: "/blog", external: true },
+  { label: "Contact", href: "/contact", external: true },
 ];
 
 export default function Header() {
@@ -226,7 +226,7 @@ export default function Header() {
             </button>
 
             <motion.button
-              onClick={() => navigate('/TeamPortal')}
+              onClick={() => navigate('/synergyhub')}
               className="ml-2 px-5 py-2 text-sm font-bold rounded-full text-white relative overflow-hidden group"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
@@ -358,7 +358,7 @@ export default function Header() {
                 })}
                 <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}>
                   <button
-                    onClick={() => { navigate('/TeamPortal'); setMobileOpen(false); }}
+                    onClick={() => { navigate('/synergyhub'); setMobileOpen(false); }}
                     className="w-full text-left px-4 py-3 text-white rounded-xl text-sm font-bold mt-2"
                     style={{ background: "linear-gradient(135deg, #f43f5e, #ec4899)" }}
                   >

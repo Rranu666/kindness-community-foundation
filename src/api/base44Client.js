@@ -153,7 +153,7 @@ const auth = {
 
   redirectToLogin(redirectUrl) {
     if (redirectUrl) sessionStorage.setItem('auth_redirect', redirectUrl);
-    window.location.href = '/Login';
+    window.location.href = '/login';
   },
 
   async logout(redirectUrl) {

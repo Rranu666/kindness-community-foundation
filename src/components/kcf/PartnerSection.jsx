@@ -40,7 +40,7 @@ export default function PartnerSection() {
               and community-first values.
             </p>
             <button
-              onClick={() => navigate("/Contact")}
+              onClick={() => navigate("/contact")}
               className="group inline-flex items-center gap-3 px-8 py-4 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg" style={{ background: "linear-gradient(135deg, #f43f5e, #ec4899)" }}
             >
               Contact Us

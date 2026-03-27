@@ -11,7 +11,7 @@ export default function TeamPortalLanding() {
     const checkAuth = async () => {
       try {
         const currentUser = await base44.auth.me();
-        if (currentUser) navigate('/TeamPortal');
+        if (currentUser) navigate('/synergyhub');
         else setChecking(false);
       } catch {
         setChecking(false);
@@ -49,7 +49,7 @@ export default function TeamPortalLanding() {
             <span className="font-black text-white text-lg" style={{ fontFamily: "'Syne', sans-serif" }}>Kindness Synergy Hub</span>
           </div>
           <button
-            onClick={() => base44.auth.redirectToLogin('/TeamPortal')}
+            onClick={() => base44.auth.redirectToLogin('/synergyhub')}
             className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
             style={{ background: 'linear-gradient(135deg, #f43f5e, #ec4899)' }}
           >
@@ -74,7 +74,7 @@ export default function TeamPortalLanding() {
             The team collaboration platform for KCF — connect, communicate, and create impact together.
           </p>
           <button
-            onClick={() => base44.auth.redirectToLogin('/TeamPortal')}
+            onClick={() => base44.auth.redirectToLogin('/synergyhub')}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-white font-bold text-lg transition-all hover:scale-105 shadow-2xl"
             style={{ background: 'linear-gradient(135deg, #f43f5e, #ec4899)', boxShadow: '0 0 40px rgba(244,63,94,0.3)' }}
           >

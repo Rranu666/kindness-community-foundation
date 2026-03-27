@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const navigateToLogin = () => {
-    window.location.href = '/Login';
+    window.location.href = '/login';
   };
 
   return (

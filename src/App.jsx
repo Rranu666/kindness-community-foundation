@@ -30,7 +30,7 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/Login" element={<Login />} />
+      <Route path="/Login" element={<Login />} />{/* legacy */}
       <Route path="/" element={
         <LayoutWrapper currentPageName={mainPageKey}>
           <MainPage />
@@ -47,24 +47,27 @@ function AppRoutes() {
           }
         />
       ))}
-      <Route path="/VolunteerDashboard" element={
-        <LayoutWrapper currentPageName="VolunteerDashboard">
-          <VolunteerDashboard />
-        </LayoutWrapper>
-      } />
+      {/* New clean URLs */}
+      <Route path="/volunteer" element={<LayoutWrapper currentPageName="VolunteerDashboard"><VolunteerDashboard /></LayoutWrapper>} />
+      <Route path="/jointeam" element={<TeamPortalLanding />} />
+      <Route path="/synergyhub" element={<TeamPortal />} />
+      <Route path="/servekindness" element={<KindnessConnect />} />
+      <Route path="/mygiving" element={<GivingDashboard />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/kindwave" element={<KindWaveAppPage />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/analytics" element={<LayoutWrapper currentPageName="Analytics"><Analytics /></LayoutWrapper>} />
+      {/* Legacy aliases — keep old URLs working */}
+      <Route path="/VolunteerDashboard" element={<LayoutWrapper currentPageName="VolunteerDashboard"><VolunteerDashboard /></LayoutWrapper>} />
       <Route path="/TeamPortalLanding" element={<TeamPortalLanding />} />
       <Route path="/TeamPortal" element={<TeamPortal />} />
-      <Route path="/servekindness" element={<KindnessConnect />} />
       <Route path="/KindnessConnect" element={<KindnessConnect />} />
       <Route path="/GivingDashboard" element={<GivingDashboard />} />
       <Route path="/Blog" element={<Blog />} />
       <Route path="/KindWaveApp" element={<KindWaveAppPage />} />
       <Route path="/Contact" element={<Contact />} />
-      <Route path="/Analytics" element={
-        <LayoutWrapper currentPageName="Analytics">
-          <Analytics />
-        </LayoutWrapper>
-      } />
+      <Route path="/Analytics" element={<LayoutWrapper currentPageName="Analytics"><Analytics /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

@@ -443,7 +443,7 @@ export default function HeroSection() {
             <motion.button
               ref={btn1.ref}
               style={btn1.style}
-              onClick={() => navigate('/TeamPortal')}
+              onClick={() => navigate('/synergyhub')}
               className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold overflow-hidden text-sm"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}

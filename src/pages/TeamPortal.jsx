@@ -49,10 +49,10 @@ export default function TeamPortal() {
 
   useEffect(() => {
     base44.auth.me().then(u => {
-      if (!u) { navigate('/TeamPortalLanding'); return; }
+      if (!u) { navigate('/jointeam'); return; }
       setCurrentUser(u);
       setAuthChecked(true);
-    }).catch(() => navigate('/TeamPortalLanding'));
+    }).catch(() => navigate('/jointeam'));
   }, [navigate]);
 
   const { data: notifications = [] } = useQuery({

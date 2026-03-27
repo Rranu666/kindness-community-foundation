@@ -197,7 +197,7 @@ export default function KindnessConnect() {
           </div>
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mt-10">
-            <Link to="/GivingDashboard" className="inline-flex items-center gap-2 text-rose-400 text-sm font-semibold hover:text-rose-300 transition-colors">
+            <Link to="/mygiving" className="inline-flex items-center gap-2 text-rose-400 text-sm font-semibold hover:text-rose-300 transition-colors">
               Already giving? View your dashboard →
             </Link>
           </motion.div>
