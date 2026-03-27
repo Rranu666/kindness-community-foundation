@@ -188,7 +188,12 @@ const integrations = {
       if (response_json_schema) return {};
 
       // ── KCF comprehensive context-based responses ────────────────────────────
-      const p = (prompt || '').toLowerCase();
+      // Extract only the user's question for matching — the full prompt includes
+      // SITE_CONTEXT which always contains "kcf", "foundation", etc., causing
+      // every query to match the mission/about branch.
+      const userQ = (prompt || '').match(/USER QUESTION:\s*(.+?)(?:\n|Answer in)/is)?.[1]?.trim()
+        || (prompt || '');
+      const p = userQ.toLowerCase();
 
       // Causes / Pillars / Focus areas
       if (p.includes('cause') || p.includes('pillar') || p.includes('focus area') || p.includes('support') || p.includes('area of work')) {
