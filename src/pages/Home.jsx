@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "@/components/kcf/Header";
 import AmbientBackground from "@/components/kcf/AmbientBackground";
 import SectionDivider from "@/components/kcf/SectionDivider";
@@ -46,16 +47,29 @@ function LazySection({ children, rootMargin = "200px" }) {
 }
 
 export default function Home() {
+  const location = useLocation();
+
   useEffect(() => {
-    const hash = window.location.hash;
-    if (!hash) return;
-    // Wait for sections to render then scroll
-    const timeout = setTimeout(() => {
-      const el = document.querySelector(hash);
+    // Prefer router state (set by Header when navigating from another page).
+    // Fall back to URL hash for direct deep-link visits (e.g. kindness.app/#initiatives).
+    const target = location.state?.scrollTarget || window.location.hash;
+    if (!target) return;
+
+    const scrollTo = () => {
+      const el = document.querySelector(target);
       if (el) el.scrollIntoView({ behavior: "smooth" });
-    }, 800);
-    return () => clearTimeout(timeout);
-  }, []);
+    };
+
+    // First pass: scroll after React has painted (catches sections already in DOM)
+    const t1 = setTimeout(scrollTo, 300);
+    // Correction pass: re-scroll after lazy sections above the target have loaded
+    // and expanded from their 80px placeholders to full height
+    const t2 = setTimeout(scrollTo, 1100);
+
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  // Re-run whenever a new scroll target arrives via router state
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state?.scrollTarget]);
 
   return (
     <div id="home" className="min-h-screen" style={{ background: "#030712", fontFamily: "'Inter', system-ui, sans-serif" }}>

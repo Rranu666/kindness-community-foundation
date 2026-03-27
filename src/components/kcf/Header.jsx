@@ -74,9 +74,9 @@ export default function Header() {
   const scrollTo = (href) => {
     setMobileOpen(false);
     if (!isHome) {
-      // Navigate to home with the hash in the URL — Home.jsx handles the scroll
-      // with an 800ms delay (enough for lazy sections to load their correct heights)
-      navigate(`/${href}`);
+      // Pass the scroll target via router state — React Router v6 strips URL hashes
+      // so window.location.hash is unreliable; state is preserved correctly.
+      navigate("/", { state: { scrollTarget: href } });
       return;
     }
     scrollToLazy(href);
