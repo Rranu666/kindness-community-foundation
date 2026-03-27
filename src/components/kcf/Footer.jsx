@@ -23,7 +23,7 @@ const legalLinks = [
   { label: "Governance & Ethics", href: "#governance" },
 ];
 
-export default function Footer() {
+export default function Footer({ hideCta = false }) {
   const navigate = useNavigate();
   const location = useLocation();
   const ref = useRef(null);
@@ -70,7 +70,7 @@ export default function Footer() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-rose-500/40 to-transparent" />
 
       {/* CTA Section */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 pb-16 border-b border-white/[0.07]">
+      {!hideCta && <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-20 pb-16 border-b border-white/[0.07]">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -109,7 +109,7 @@ export default function Footer() {
             </motion.a>
           </div>
         </motion.div>
-      </div>
+      </div>}
 
       {/* Links grid */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">

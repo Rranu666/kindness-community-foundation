@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Header from "@/components/kcf/Header";
+import Footer from "@/components/kcf/Footer";
 import KindWaveApp from "@/components/kindwave/KindWaveApp";
 
 export default function KindWaveAppPage() {
@@ -19,6 +20,7 @@ export default function KindWaveAppPage() {
       <div style={{ paddingTop: "80px", height: "100vh", width: "100%" }}>
         <KindWaveApp />
       </div>
+      <Footer hideCta />
     </div>
   );
 }
