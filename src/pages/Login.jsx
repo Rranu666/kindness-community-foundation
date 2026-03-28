@@ -192,7 +192,7 @@ export default function Login() {
 
         <p className="text-center text-white/20 text-xs mt-6">
           © 2026 Kindness Community Foundation ·{' '}
-          <Link to="/" className="hover:text-white/50 transition-colors">kindness-community-ai.netlify.app</Link>
+          <Link to="/" className="hover:text-white/50 transition-colors">kindnesscommunityfoundation.com</Link>
         </p>
       </div>
     </div>

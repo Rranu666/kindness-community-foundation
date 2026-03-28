@@ -82,6 +82,7 @@ const DEFAULT_PINS = [
 
 // ── Module-level alias (used by catOf + sub-components) ─
 const CATS = DEFAULT_CATS;
+const PINS = DEFAULT_PINS;
 
 // ── Supabase data hook ──────────────────────────────────
 function useKindWaveData() {

@@ -257,7 +257,7 @@ const integrations = {
       }
       // Contact / Email / Reach
       if (p.includes('contact') || p.includes('reach') || p.includes('email') || p.includes('get in touch') || p.includes('message')) {
-        return { result: 'Reach KCF at contact@kindnesscommunityfoundation.com. You can also visit kindness-community-ai.netlify.app or reach us through the contact form on our website. We\'re based in Newport Beach, California.' };
+        return { result: 'Reach KCF at contact@kindnesscommunityfoundation.com. You can also visit kindnesscommunityfoundation.com or reach us through the contact form on our website. We\'re based in Newport Beach, California.' };
       }
       // Mission / Vision / About / What is KCF
       if (p.includes('mission') || p.includes('vision') || p.includes('about') || p.includes('kcf') || p.includes('kindness community') || p.includes('foundation') || p.includes('what is') || p.includes('who are')) {

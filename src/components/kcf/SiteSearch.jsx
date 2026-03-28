@@ -33,7 +33,7 @@ VOLUNTEER INFO:
 - Dashboard shows total hours, badges earned, active signups
 
 CONTACT: contact@kindnesscommunityfoundation.com
-WEBSITE: kindness-community-ai.netlify.app
+WEBSITE: kindnesscommunityfoundation.com
 LOCATION: California, USA
 `;
 

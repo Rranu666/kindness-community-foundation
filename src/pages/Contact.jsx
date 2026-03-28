@@ -43,8 +43,8 @@ const contactDetails = [
   {
     icon: Globe,
     label: "Website",
-    value: "kindness-community-ai.netlify.app",
-    href: "https://kindness-community-ai.netlify.app",
+    value: "kindnesscommunityfoundation.com",
+    href: "https://kindnesscommunityfoundation.com",
     color: "from-sky-500 to-blue-500",
     glow: "rgba(56,189,248,0.15)",
   },
