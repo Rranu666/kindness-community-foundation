@@ -29,7 +29,7 @@ const initiatives = [
       { icon: Store, label: "Play Store Ready", desc: "Optional AAB for publishing" },
     ],
     tags: ["Bloggers", "Small Businesses", "Creators", "Developers"],
-    cta: { label: "Visit FreeAppMaker.ai", href: "https://website-to-apk-converter.netlify.app" },
+    cta: { label: "Visit FreeAppMaker.ai", href: "https://freeappmaker.ai/" },
   },
   {
     id: "mymind-studio",
@@ -49,7 +49,7 @@ const initiatives = [
       { icon: Cpu, label: "AI Integrations", desc: "Web, mobile, SaaS & automation" },
     ],
     tags: ["Web Apps", "Mobile Apps", "SaaS", "AI Systems"],
-    cta: { label: "Visit MyMind Studio", href: "https://mymind-studio.netlify.app/" },
+    cta: { label: "Visit MyMind Studio", href: "https://mymindstudio.ai/" },
   },
   {
     id: "service-connect-pro",
@@ -89,7 +89,7 @@ const initiatives = [
       { icon: Users, label: "Community Connection", desc: "Safe, shared reflections" },
     ],
     tags: ["Spiritual Growth", "Emotional Support", "Biblical Wisdom", "Community"],
-    cta: { label: "Visit KCF Foundation", href: "https://kindness-community-foundation.netlify.app" },
+    cta: { label: "Visit KCF Foundation", href: "https://kindnesscommunity.ai/" },
   },
   {
     id: "cryptotradesignals",
@@ -109,7 +109,7 @@ const initiatives = [
       { icon: Lock, label: "Full Asset Control", desc: "No exchange credentials needed" },
     ],
     tags: ["Crypto", "AI Signals", "Retail Traders", "Risk Awareness"],
-    cta: { label: "Explore CryptoTradeSignals.ai", href: "#" },
+    cta: { label: "Explore CryptoTradeSignals.ai", href: "https://cryptotradesignals.ai/" },
   },
   {
     id: "karmatrust",
@@ -298,6 +298,8 @@ export default function InitiativesSection() {
                       {initiative.cta && (
                         <a
                           href={initiative.cta.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-105"
                           style={{ background: `linear-gradient(135deg, ${initiative.accent}, ${initiative.accent}cc)` }}
                         >
