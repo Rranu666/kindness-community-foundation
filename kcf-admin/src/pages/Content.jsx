@@ -27,6 +27,24 @@ function Toggle({ checked, onChange, disabled }) {
   );
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+const SITE_ORIGIN = 'https://kindnesscommununityfoundation.com';
+const SLUG_TO_PATH = {
+  home: '/',
+  kindwave: '/kindwave',
+  servekindness: '/servekindness',
+  blog: '/blog',
+  contact: '/contact',
+  volunteer: '/volunteer',
+  jointeam: '/jointeam',
+  synergyhub: '/synergyhub',
+  mygiving: '/mygiving',
+};
+function pageUrl(slug) {
+  const path = SLUG_TO_PATH[slug] ?? `/${slug}`;
+  return `${SITE_ORIGIN}${path}`;
+}
+
 // ─── Tab 1: Page Visibility ──────────────────────────────────────────────────
 function PagesVisibilityTab() {
   const { data: pages = [], isLoading } = usePageVisibility();
@@ -76,12 +94,13 @@ function PagesVisibilityTab() {
               </td>
               <td className="px-4 py-3">
                 <a
-                  href={`https://kindnesscommununityfoundation.com/${page.page_slug}`}
+                  href={pageUrl(page.page_slug)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-blue-600 hover:text-blue-800 font-mono text-xs group"
+                  onClick={e => e.stopPropagation()}
+                  className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-mono text-xs group"
                 >
-                  /{page.page_slug}
+                  {SLUG_TO_PATH[page.page_slug] ?? `/${page.page_slug}`}
                   <ExternalLink size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
               </td>
