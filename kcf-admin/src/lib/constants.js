@@ -1,12 +1,13 @@
 import {
   LayoutDashboard, Users, FileText, Search, Globe,
-  Megaphone, BarChart2, Settings,
+  Megaphone, BarChart2, Settings, Waves,
 } from 'lucide-react';
 
 export const NAV_ITEMS = [
   { label: 'Dashboard',  href: '/dashboard',  icon: LayoutDashboard },
   { label: 'Users',      href: '/users',       icon: Users },
   { label: 'Content',    href: '/content',     icon: FileText },
+  { label: 'KindWave',   href: '/kindwave',    icon: Waves },
   { label: 'SEO',        href: '/seo',         icon: Search },
   { label: 'Languages',  href: '/languages',   icon: Globe },
   { label: 'Marketing',  href: '/marketing',   icon: Megaphone },

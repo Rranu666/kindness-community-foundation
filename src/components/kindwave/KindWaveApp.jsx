@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { supabase } from "@/api/supabaseClient";
 
 /* ═══════════════════════════════════════════════════════
    KINDWAVE 3.0  ·  "Deep Space Bioluminescence"
@@ -58,8 +59,8 @@ const LEAGUE = [
   { name:"Green GGN",   avatar:"🌱", streak:9,  ripples:27  },
 ];
 
-// ── Help Categories ────────────────────────────────────
-const CATS = [
+// ── Help Categories (default fallback) ────────────────
+const DEFAULT_CATS = [
   { id:"urgent",    label:"Urgent Physical",    color:T.urgent,  emoji:"🚨", desc:"Emergency non-medical help" },
   { id:"emotional", label:"Emotional Support",  color:T.warm,    emoji:"💬", desc:"Listening & encouragement"  },
   { id:"prayer",    label:"Prayer & Spiritual", color:T.violet,  emoji:"🙏", desc:"Faith & spiritual support"   },
@@ -67,8 +68,8 @@ const CATS = [
   { id:"community", label:"Community Group",    color:T.rose,    emoji:"🏘️", desc:"Events & volunteering"       },
 ];
 
-// ── Seed Data ──────────────────────────────────────────
-const PINS = [
+// ── Seed Data (default fallback) ───────────────────────
+const DEFAULT_PINS = [
   { id:1, title:"Need a ride to Medanta",      cat:"urgent",    urgency:"Urgent",   x:36,y:40, user:"Aanya S.",    time:"3m",  desc:"Car broke down near Sector 14. Hospital appointment urgent.", verified:true  },
   { id:2, title:"Someone to talk to tonight",  cat:"emotional", urgency:"Standard", x:58,y:28, user:"Anonymous",   time:"11m", desc:"Going through a rough week. Just need a kind ear.",          verified:false },
   { id:3, title:"Prayer circle this Sunday",   cat:"prayer",    urgency:"Flexible", x:72,y:54, user:"Faith Circle",time:"1h",  desc:"Open interfaith prayer at DLF park. All are welcome.",       verified:true  },
@@ -78,6 +79,27 @@ const PINS = [
   { id:7, title:"Grief support needed",        cat:"emotional", urgency:"Standard", x:82,y:33, user:"Anonymous",   time:"43m", desc:"Lost someone last week. Feeling very alone.",               verified:false },
   { id:8, title:"Tutor for kids (Math)",       cat:"general",   urgency:"Flexible", x:17,y:44, user:"Priya T.",    time:"3h",  desc:"2 kids need help with Math & Science, Grade 7-8.",          verified:true  },
 ];
+
+// ── Supabase data hook ──────────────────────────────────
+function useKindWaveData() {
+  const [cats, setCats] = useState(DEFAULT_CATS);
+  const [pins, setPins] = useState(DEFAULT_PINS);
+  useEffect(() => {
+    supabase.from('kindwave_categories').select('*').eq('is_active', true).order('sort_order')
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setCats(data.map(c => ({ id: c.id, label: c.label, color: c.color, emoji: c.emoji, desc: c.description || '' })));
+        }
+      });
+    supabase.from('kindwave_requests').select('*').eq('is_active', true).order('created_at')
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setPins(data.map(r => ({ id: r.id, title: r.title, cat: r.category, urgency: r.urgency, x: r.x_pos, y: r.y_pos, user: r.user_name, time: '·', desc: r.description || '', verified: r.verified })));
+        }
+      });
+  }, []);
+  return { cats, pins };
+}
 
 const AVATARS = ["🌟","🌊","🌱","💚","🦋","☀️","🌙","⭐","🔮","🌸","🦄","🎯"];
 
@@ -1859,10 +1881,11 @@ function BottomNav({ active, setActive, isVol, streak }) {
 // ROOT APP
 // ══════════════════════════════════════════════════════
 export default function KindWaveApp() {
+  const { cats: CATS, pins: DB_PINS } = useKindWaveData();
   const [user, setUser]               = useState(null);
   const [xp, setXp]                   = useState(0);
   const [tab, setTab]                 = useState("map");
-  const [pins, setPins]               = useState(PINS);
+  const [pins, setPins]               = useState(DB_PINS);
   const [filterCats, setFilterCats]   = useState([]);
   const [view, setView]               = useState("main");
   const [selPin, setSelPin]           = useState(null);
@@ -1874,6 +1897,9 @@ export default function KindWaveApp() {
   const [badgeQ, setBadgeQ]           = useState([]);
   const [firstVisit, setFirstVisit]   = useState(true);
   const [tooltipDismissed, setTooltipDismissed] = useState({});
+
+  // Sync pins from Supabase when loaded
+  useEffect(() => { setPins(DB_PINS); }, [DB_PINS]);
 
   // ── Feature 1: Streak ──────────────────────────────
   const [streak, setStreak]           = useState(0);

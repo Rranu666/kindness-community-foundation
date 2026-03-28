@@ -11,6 +11,7 @@ import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import Users from '@/pages/Users';
 import Content from '@/pages/Content';
+import KindWaveAdmin from '@/pages/KindWave';
 import Seo from '@/pages/Seo';
 import Languages from '@/pages/Languages';
 import Marketing from '@/pages/Marketing';
@@ -30,6 +31,7 @@ export default function App() {
                 <Route path="/dashboard"  element={<Dashboard />} />
                 <Route path="/users"      element={<Users />} />
                 <Route path="/content"    element={<Content />} />
+                <Route path="/kindwave"   element={<KindWaveAdmin />} />
                 <Route path="/seo"        element={<Seo />} />
                 <Route path="/languages"  element={<Languages />} />
                 <Route path="/marketing"  element={<Marketing />} />
