@@ -116,8 +116,9 @@
     <div id="root">
       <!--
         Static pre-render for search engine crawlers that do not execute JavaScript.
-        Replaced immediately by React once JS loads — real visitors never see this.
+        Hidden from visual display — Google indexes display:none HTML source content.
       -->
+      <div style="display:none" aria-hidden="true">
       <header>
         <nav aria-label="Main navigation">
           <a href="/">KCF Home</a>
@@ -179,6 +180,7 @@
           <a href="/contact">Reach Out to KCF</a>
         </nav>
       </footer>
+      </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
