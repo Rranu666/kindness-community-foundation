@@ -134,6 +134,10 @@ export default function VisionMission() {
                   src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=700&q=80"
                   alt="Community coming together"
                   className="w-full h-72 lg:h-96 object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width="700"
+                  height="384"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d1b2a]/80 via-transparent to-transparent" />
                 {/* Overlay caption */}
@@ -150,12 +154,16 @@ export default function VisionMission() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-6 -right-4 w-44 rounded-2xl overflow-hidden shadow-xl border-2 border-white/10"
+                className="hidden sm:block absolute -bottom-6 -right-4 w-36 md:w-44 rounded-2xl overflow-hidden shadow-xl border-2 border-white/10"
               >
                 <img
                   src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=300&q=80"
                   alt="Team collaboration"
-                  className="w-full h-28 object-cover"
+                  className="w-full h-24 md:h-28 object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="112"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/70 to-transparent" />
                 <div className="absolute bottom-2 left-2 right-2">

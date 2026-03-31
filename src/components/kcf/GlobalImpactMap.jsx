@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from "react-leaflet";
 import { motion } from "framer-motion";
+import "leaflet/dist/leaflet.css";
 
 // Regional impact data
 const IMPACT_REGIONS = [
@@ -23,10 +24,10 @@ export default function GlobalImpactMap() {
 
   const mapStyle = {
     width: "100%",
-    height: "400px",
+    height: "clamp(300px, 45vw, 420px)",
     borderRadius: "20px",
-    overflow: "hidden",
     boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+    overflow: "hidden",
   };
 
   const stats = useMemo(() => {

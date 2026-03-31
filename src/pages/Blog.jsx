@@ -81,6 +81,8 @@ function BlogPostFull() {
             src={featuredPost.image}
             alt={featuredPost.title}
             className="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
+            loading="eager"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/90 via-[#030712]/30 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6">
@@ -132,6 +134,8 @@ function BlogPostFull() {
               src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=900&q=80"
               alt="Community coming together"
               className="w-full h-52 sm:h-64 object-cover"
+              loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#030712]/70 to-transparent flex items-center">
               <div className="px-8">
@@ -166,6 +170,8 @@ function BlogPostFull() {
               src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=900&q=80"
               alt="Volunteers in action"
               className="w-full h-52 sm:h-64 object-cover"
+              loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/80 to-transparent flex items-end">
               <p className="text-white/70 text-sm px-6 pb-5 italic">Our volunteers creating real-world change across communities</p>
@@ -351,7 +357,8 @@ export default function Blog() {
                 <div className="flex flex-col lg:grid lg:grid-cols-2">
                   <div className="relative overflow-hidden">
                     <img src={featuredPost.image} alt={featuredPost.title}
-                      className="w-full h-52 sm:h-64 lg:h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      className="w-full h-52 sm:h-64 lg:h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#030712]/30 lg:block hidden" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1.5 rounded-full text-xs font-bold"
@@ -400,7 +407,7 @@ export default function Blog() {
                     className="rounded-2xl overflow-hidden border border-white/[0.06]"
                     style={{ background: "rgba(255,255,255,0.02)" }}>
                     <div className="relative overflow-hidden">
-                      <img src={post.image} alt={post.title} className="w-full h-40 object-cover opacity-60" />
+                      <img src={post.image} alt={post.title} className="w-full h-40 object-cover opacity-60" loading="lazy" decoding="async" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#030712] to-transparent" />
                       <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold border border-indigo-500/40"
                         style={{ background: "rgba(99,102,241,0.15)", color: "#a5b4fc" }}>

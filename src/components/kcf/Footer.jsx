@@ -112,7 +112,7 @@ export default function Footer({ hideCta = false }) {
       </div>}
 
       {/* Links grid */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10 sm:py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
         {/* Brand column */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

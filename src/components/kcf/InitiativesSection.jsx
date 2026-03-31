@@ -235,7 +235,7 @@ export default function InitiativesSection() {
               transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
               className={`bg-gradient-to-br ${initiative.gradientDark} border border-white/10 rounded-3xl overflow-hidden`}
             >
-              <div className="flex flex-col lg:grid lg:grid-cols-5 min-h-[460px]">
+              <div className="flex flex-col lg:grid lg:grid-cols-5 lg:min-h-[460px]">
                  {/* Left panel */}
                  <div className={`lg:col-span-2 bg-gradient-to-br ${initiative.gradient} p-6 lg:p-10 flex flex-col justify-between relative overflow-hidden`}>
                   <div className="absolute -bottom-8 -right-8 text-white/10 text-[10rem] font-black leading-none select-none pointer-events-none">

@@ -111,7 +111,7 @@ export default function ImpactMap() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl"
         >
-          <div className="relative" style={{ height: "500px" }}>
+          <div className="relative" style={{ height: "clamp(320px, 50vw, 500px)" }}>
             <MapContainer
               center={[25, 40]}
               zoom={3}
@@ -141,7 +141,7 @@ export default function ImpactMap() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute top-4 right-4 z-[1000] w-72 bg-[#0d1b2a]/95 backdrop-blur-md border border-white/10 rounded-2xl p-5 shadow-2xl"
+                  className="absolute top-4 right-4 left-4 sm:left-auto z-[1000] w-auto sm:w-72 bg-[#0d1b2a]/95 backdrop-blur-md border border-white/10 rounded-2xl p-5 shadow-2xl"
                 >
                   <button
                     onClick={() => setActive(null)}
