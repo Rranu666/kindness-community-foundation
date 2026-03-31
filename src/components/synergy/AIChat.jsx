@@ -43,7 +43,7 @@ KCF INFO:
 
 Answer helpfully and warmly. If unrelated to KCF, you can still help as a general assistant.
 
-USER: ${msg}`,
+USER QUESTION: ${msg}`,
       });
       const reply = (typeof res === 'string' ? res : res?.result || res?.response) || 'Sorry, I could not process that.';
       setMessages(prev => [...prev, { role: 'ai', text: reply, id: Date.now() + 1 }]);
