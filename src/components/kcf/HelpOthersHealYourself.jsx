@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -39,20 +39,36 @@ const MY_DOT = L.divIcon({
   iconSize: [14, 14], iconAnchor: [7, 7], className: "",
 });
 
-// Map card component
+// Auto-pan to user location once it resolves
+function MapRecenter({ loc }) {
+  const map = useMap();
+  useEffect(() => { if (loc) map.setView([loc.lat, loc.lng], 14, { animate: true }); }, [loc, map]);
+  return null;
+}
+
+// Map card — fills 100% of parent via absolute positioning
 function LiveMapCard() {
   const loc = useGeoLocation();
-  const center = loc || { lat: 37.7749, lng: -122.4194 };
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%", minHeight: 280, borderRadius: 16, overflow: "hidden" }}>
+    <div style={{ position: "absolute", inset: 0 }}>
       {!loc && (
-        <div style={{ position: "absolute", inset: 0, zIndex: 10, background: "rgba(3,7,18,0.85)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 10, borderRadius: 16 }}>
+        <div style={{ position: "absolute", inset: 0, zIndex: 20, background: "rgba(3,7,18,0.88)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 10 }}>
           <div style={{ width: 28, height: 28, borderRadius: "50%", border: "3px solid #00e8b4", borderTopColor: "transparent", animation: "spin 0.8s linear infinite" }} />
           <span style={{ color: "#4a7a9b", fontSize: 12 }}>Getting your location…</span>
         </div>
       )}
-      <MapContainer center={[center.lat, center.lng]} zoom={14} style={{ width: "100%", height: "100%", minHeight: 280 }} zoomControl={false} attributionControl={false} dragging={false} scrollWheelZoom={false} doubleClickZoom={false}>
+      <MapContainer
+        center={[37.7749, -122.4194]}
+        zoom={14}
+        style={{ width: "100%", height: "100%" }}
+        zoomControl={false}
+        attributionControl={false}
+        dragging={false}
+        scrollWheelZoom={false}
+        doubleClickZoom={false}
+      >
         <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+        {loc && <MapRecenter loc={loc} />}
         {loc && <Marker position={[loc.lat, loc.lng]} icon={MY_DOT} zIndexOffset={1000} />}
         {loc && PIN_OFFSETS.map((p, i) => (
           <Marker key={i} position={[loc.lat + p.dlat, loc.lng + p.dlng]} icon={pinIcon(p.color)} />
@@ -208,16 +224,15 @@ export default function HelpOthersHealYourself() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-5">
-            {/* Live map */}
+            {/* Live map — fills full card height */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0}
               className="rounded-3xl border border-white/[0.08] relative overflow-hidden"
-              style={{ background: "rgba(255,255,255,0.025)", minHeight: "320px" }}>
-              <div className="absolute top-4 left-4 z-[1000] text-xs text-white/50 tracking-widest uppercase font-bold px-3 py-1.5 rounded-full border border-white/10" style={{ background: "rgba(3,7,18,0.7)", backdropFilter: "blur(8px)" }}>
+              style={{ background: "rgba(255,255,255,0.025)", minHeight: "380px" }}>
+              {/* Label overlay */}
+              <div className="absolute top-4 left-4 z-[1000] text-xs text-white/60 tracking-widest uppercase font-bold px-3 py-1.5 rounded-full border border-white/10" style={{ background: "rgba(3,7,18,0.75)", backdropFilter: "blur(8px)" }}>
                 Help Near You
               </div>
-              <div style={{ height: 320 }}>
-                <LiveMapCard />
-              </div>
+              <LiveMapCard />
             </motion.div>
 
             {/* Connection moment */}
