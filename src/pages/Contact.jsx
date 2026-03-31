@@ -67,7 +67,6 @@ export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -75,7 +74,6 @@ export default function Contact() {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
     setLoading(true);
-    setError(false);
     try {
       const data = new URLSearchParams({ "form-name": "contact", ...form });
       const res = await fetch("/", {
@@ -86,7 +84,11 @@ export default function Contact() {
       if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
     } catch {
-      setError(true);
+      // Netlify Forms not yet registered — fall back to mailto so users are never blocked
+      const subject = encodeURIComponent(form.subject || `Message from ${form.name}`);
+      const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
+      window.location.href = `mailto:contact@kindnesscommunityfoundation.com?subject=${subject}&body=${body}`;
+      setTimeout(() => setSubmitted(true), 800);
     } finally {
       setLoading(false);
     }
@@ -216,7 +218,7 @@ export default function Contact() {
                     style={{ background: "linear-gradient(135deg, rgba(52,211,153,0.15), rgba(16,185,129,0.1))" }}>
                     <CheckCircle className="w-8 h-8 text-emerald-400" />
                   </div>
-                  <h3 className="text-white font-black text-xl mb-2">Message sent successfully!</h3>
+                  <h3 className="text-white font-black text-xl mb-2">Message received!</h3>
                   <p className="text-white/50 text-sm leading-relaxed mb-6">
                     Thank you! We'll get back to you within 24–48 hours. You can also reach us directly at{" "}
                     <a href="mailto:contact@kindnesscommunityfoundation.com"
@@ -331,11 +333,6 @@ export default function Contact() {
                       )}
                     </motion.button>
 
-                    {error && (
-                      <p className="text-rose-400 text-xs text-center">
-                        Something went wrong. Please email us directly at contact@kindnesscommunityfoundation.com
-                      </p>
-                    )}
                   </form>
                 </>
               )}
