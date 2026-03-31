@@ -191,8 +191,12 @@ const integrations = {
       // Extract only the user's question for matching — the full prompt includes
       // SITE_CONTEXT which always contains "kcf", "foundation", etc., causing
       // every query to match the mission/about branch.
-      const userQ = (prompt || '').match(/USER QUESTION:\s*(.+?)(?:\n|Answer in)/is)?.[1]?.trim()
-        || (prompt || '');
+      // Extract just the user's question — split on the marker and take everything after it
+      const raw = prompt || '';
+      const afterMarker = raw.split(/USER QUESTION:/i);
+      const userQ = afterMarker.length > 1
+        ? afterMarker[afterMarker.length - 1].trim()
+        : raw;
       const p = userQ.toLowerCase();
 
       // Causes / Pillars / Focus areas
