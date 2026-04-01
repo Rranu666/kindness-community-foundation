@@ -43,23 +43,31 @@ export default function NotificationCenter({ langId }) {
   }, []);
 
   const loadNotifications = async () => {
-    const list = await notificationsApi.filter(
-      { dismissed: false },
-      '-created_date',
-      50
-    );
-    setNotifications(list);
-    const unread = list.filter(n => !n.read).length;
-    setUnreadCount(unread);
+    try {
+      const list = await notificationsApi.filter(
+        { dismissed: false },
+        '-created_date',
+        50
+      );
+      setNotifications(list);
+      const unread = list.filter(n => !n.read).length;
+      setUnreadCount(unread);
+    } catch {
+      // API unavailable or user not authenticated — silently show empty state
+    }
   };
 
   const handleMarkAsRead = async (notification) => {
-    await notificationsApi.update(notification.id, { read: true });
+    try {
+      await notificationsApi.update(notification.id, { read: true });
+    } catch { /* ignore */ }
     setUnreadCount(prev => Math.max(0, prev - 1));
   };
 
   const handleDismiss = async (notification) => {
-    await notificationsApi.update(notification.id, { dismissed: true });
+    try {
+      await notificationsApi.update(notification.id, { dismissed: true });
+    } catch { /* ignore */ }
     setNotifications(prev => prev.filter(n => n.id !== notification.id));
   };
 
