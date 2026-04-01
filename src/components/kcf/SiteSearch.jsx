@@ -151,6 +151,7 @@ export default function SiteSearch({ isOpen, onClose }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [listening, setListening] = useState(false);
+  const [micError, setMicError] = useState(null);
   const [copied, setCopied] = useState(null);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
@@ -236,18 +237,49 @@ export default function SiteSearch({ isOpen, onClose }) {
     }
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) return;
+
+    setMicError(null);
     const rec = new SR();
     rec.lang = "en-US";
     rec.interimResults = false;
-    rec.onresult = (e) => {
-      setInput(prev => (prev ? prev + " " : "") + e.results[0][0].transcript);
+
+    let resolved = false;
+    const done = (transcript, errMsg) => {
+      if (resolved) return;
+      resolved = true;
       setListening(false);
+      if (transcript) {
+        setInput(prev => (prev ? prev + " " : "") + transcript);
+      } else if (errMsg) {
+        setMicError(errMsg);
+        setTimeout(() => setMicError(null), 4000);
+      }
     };
-    rec.onerror = () => setListening(false);
-    rec.onend = () => setListening(false);
-    rec.start();
-    recRef.current = rec;
-    setListening(true);
+
+    rec.onresult = (e) => done(e.results[0][0].transcript, null);
+    rec.onerror = (e) => {
+      if (e.error === "not-allowed" || e.error === "permission-denied") {
+        done(null, "🎤 Mic blocked — allow microphone access in your browser settings");
+      } else if (e.error === "no-speech") {
+        done(null, null); // silent — just stop listening
+      } else if (e.error === "audio-capture") {
+        done(null, "🎤 No microphone found — connect one and try again");
+      } else if (e.error === "network") {
+        done(null, "🌐 Network error — check your connection and try again");
+      } else {
+        done(null, "Could not record — try again");
+      }
+    };
+    rec.onend = () => done(null, null);
+
+    try {
+      rec.start();
+      recRef.current = rec;
+      setListening(true);
+    } catch {
+      setMicError("Could not start microphone — try again");
+      setTimeout(() => setMicError(null), 4000);
+    }
   };
 
   const hasChat = messages.length > 1;
@@ -494,6 +526,9 @@ export default function SiteSearch({ isOpen, onClose }) {
                 </button>
               </div>
 
+              {micError && (
+                <p className="text-[11px] text-amber-400 mt-2 text-center leading-snug">{micError}</p>
+              )}
               <p className="text-center text-[9px] mt-2 flex items-center justify-center gap-1 text-white/15">
                 <Zap className="w-2.5 h-2.5" />
                 Powered by KCF AI · Press <kbd className="mx-0.5 px-1 py-0.5 rounded text-[8px] font-mono" style={{ background: "rgba(255,255,255,0.08)" }}>Enter</kbd> to send · <kbd className="mx-0.5 px-1 py-0.5 rounded text-[8px] font-mono" style={{ background: "rgba(255,255,255,0.08)" }}>Esc</kbd> to close

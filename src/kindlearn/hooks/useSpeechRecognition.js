@@ -15,8 +15,6 @@ const LANG_CODES = {
 // Normalize text for loose comparison
 // Keeps CJK, Hangul, Hiragana, Katakana intact; strips accents from Latin
 function normalize(str) {
-  // For non-Latin scripts (Japanese, Korean, Chinese), keep original characters
-  // For Latin scripts, strip diacritics and punctuation
   const hasCJK = /[\u3000-\u9fff\uac00-\ud7af\uf900-\ufaff]/.test(str);
   if (hasCJK) {
     return str.trim().toLowerCase();
@@ -35,11 +33,7 @@ function similarityScore(a, b) {
   const nb = normalize(b);
   if (na === nb) return 1;
   if (!na || !nb) return 0;
-
-  // Check if the target appears inside the spoken text or vice versa
   if (na.includes(nb) || nb.includes(na)) return 0.9;
-
-  // Count matching chars
   let matches = 0;
   const shorter = na.length < nb.length ? na : nb;
   const longer = na.length < nb.length ? nb : na;
@@ -50,11 +44,13 @@ function similarityScore(a, b) {
 }
 
 export function useSpeechRecognition(langId) {
-  const langCode = (langId && LANG_CODES[langId]) ? LANG_CODES[langId] : 'en-US';
+  // Guard against 'undefined' / 'null' strings passed from URL params
+  const safeLangId = (langId && langId !== 'undefined' && langId !== 'null') ? langId : 'spanish';
+  const langCode = LANG_CODES[safeLangId] || 'en-US';
+
   const isSupported = typeof window !== 'undefined' &&
     ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
 
-  // Store active recognition instance so it can be cancelled
   let activeRec = null;
 
   const stopListening = () => {
@@ -79,13 +75,19 @@ export function useSpeechRecognition(langId) {
       rec.maxAlternatives = 3;
       rec.continuous = false;
 
-      rec.onresult = (e) => {
+      // Use a flag so we only resolve once (onend can fire after onerror)
+      let resolved = false;
+      const resolveOnce = (value) => {
+        if (resolved) return;
+        resolved = true;
         activeRec = null;
+        resolve(value);
+      };
+
+      rec.onresult = (e) => {
         const alternatives = Array.from(e.results[0]);
         const transcripts = alternatives.map((alt) => alt.transcript.trim());
         const bestTranscript = transcripts[0] || '';
-
-        // Score all alternatives, pick best match
         const scores = transcripts.map((t) => similarityScore(t, targetWord));
         const bestScore = Math.max(...scores);
 
@@ -94,30 +96,43 @@ export function useSpeechRecognition(langId) {
         else if (bestScore >= 0.55) feedback = 'close';
         else feedback = 'try_again';
 
-        resolve({ success: bestScore >= 0.55, transcript: bestTranscript, feedback, score: bestScore });
+        resolveOnce({ success: bestScore >= 0.55, transcript: bestTranscript, feedback, score: bestScore });
       };
 
       rec.onerror = (e) => {
-        activeRec = null;
         if (e.error === 'no-speech') {
-          resolve({ success: false, transcript: '', feedback: 'no_speech' });
+          resolveOnce({ success: false, transcript: '', feedback: 'no_speech' });
         } else if (e.error === 'aborted') {
-          resolve({ success: false, transcript: '', feedback: 'cancelled' });
+          resolveOnce({ success: false, transcript: '', feedback: 'cancelled' });
+        } else if (e.error === 'not-allowed' || e.error === 'permission-denied') {
+          resolveOnce({ success: false, transcript: '', feedback: 'not_allowed' });
+        } else if (e.error === 'audio-capture') {
+          resolveOnce({ success: false, transcript: '', feedback: 'no_mic' });
+        } else if (e.error === 'network') {
+          resolveOnce({ success: false, transcript: '', feedback: 'network_error' });
         } else {
-          resolve({ success: false, transcript: '', feedback: 'error' });
+          resolveOnce({ success: false, transcript: '', feedback: 'error' });
         }
       };
 
+      // Safety net: if onend fires without onresult or onerror (browser quirk),
+      // resolve as no_speech so the UI never hangs in "listening" state
       rec.onend = () => {
-        activeRec = null;
+        resolveOnce({ success: false, transcript: '', feedback: 'no_speech' });
       };
 
-      rec.start();
+      try {
+        rec.start();
+      } catch (err) {
+        resolveOnce({ success: false, transcript: '', feedback: 'error' });
+        return;
+      }
 
-      // Safety timeout after 6s
+      // Safety timeout after 8s
       setTimeout(() => {
-        try { if (activeRec) { activeRec.stop(); activeRec = null; } } catch (_) {}
-      }, 6000);
+        try { if (activeRec) { activeRec.stop(); } } catch (_) {}
+        resolveOnce({ success: false, transcript: '', feedback: 'no_speech' });
+      }, 8000);
     });
   };
 
