@@ -25,15 +25,18 @@ export default function NotificationCenter({ langId }) {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
+    // Skip all API calls for guests — no token means no notifications
+    if (!localStorage.getItem('kl_token')) return;
+
     loadNotifications();
-    
+
     // Subscribe to new notifications
     const unsubscribe = notificationsApi.subscribe((event) => {
       if (event.type === 'create') {
         setNotifications(prev => [event.data, ...prev]);
         setUnreadCount(prev => prev + 1);
       } else if (event.type === 'update') {
-        setNotifications(prev => 
+        setNotifications(prev =>
           prev.map(n => n.id === event.id ? event.data : n)
         );
       }

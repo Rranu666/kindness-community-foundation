@@ -14,13 +14,17 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-// On 401, clear token and redirect to login
+// On 401, only redirect to login if there was an active session token.
+// Guest users (no token) get a silent rejection — no redirect.
 client.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
+      const hadToken = !!localStorage.getItem('kl_token');
       localStorage.removeItem('kl_token');
-      window.location.href = '/kindlearn/login';
+      if (hadToken) {
+        window.location.href = '/kindlearn/login';
+      }
     }
     return Promise.reject(err);
   }
