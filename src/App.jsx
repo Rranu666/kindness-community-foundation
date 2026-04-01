@@ -16,6 +16,7 @@ import KindnessConnect from './pages/KindnessConnect';
 import GivingDashboard from './pages/GivingDashboard';
 import Blog from './pages/Blog';
 import KindWaveAppPage from './pages/KindWaveAppPage';
+import KindCalmUnityPage from './pages/KindCalmUnityPage';
 import Login from './pages/Login';
 import Contact from './pages/Contact';
 
@@ -55,6 +56,7 @@ function AppRoutes() {
       <Route path="/mygiving" element={<GivingDashboard />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/kindwave" element={<KindWaveAppPage />} />
+      <Route path="/kindcalmunity" element={<KindCalmUnityPage />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
       <Route path="/analytics" element={<LayoutWrapper currentPageName="Analytics"><Analytics /></LayoutWrapper>} />

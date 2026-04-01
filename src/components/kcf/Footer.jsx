@@ -10,6 +10,7 @@ const quickLinks = [
   { label: "Vision & Mission", href: "#vision" },
   { label: "Leadership", href: "#leadership" },
   { label: "KindWave App", href: "/kindwave", external: true },
+  { label: "KindCalmUnity", href: "/kindcalmunity", external: true },
   { label: "Blog", href: "/blog", external: true },
   { label: "Partners", href: "#partners" },
   { label: "Governance", href: "#governance" },

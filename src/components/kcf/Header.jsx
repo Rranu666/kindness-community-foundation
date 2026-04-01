@@ -9,6 +9,7 @@ import { usePageVisibility } from "@/hooks/usePageVisibility";
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "KindWave", href: "/kindwave", external: true, highlight: true },
+  { label: "KindCalmUnity", href: "/kindcalmunity", external: true, highlightGreen: true },
   { label: "Serve", href: "/servekindness", external: true },
   { label: "Initiatives", href: "#initiatives" },
   {
@@ -142,6 +143,28 @@ export default function Header() {
                         {link.label}
                         <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full"
                           style={{ background: "rgba(244,63,94,0.25)", color: "#fb7185" }}>
+                          NEW
+                        </span>
+                      </Link>
+                    );
+                  }
+                  if (link.highlightGreen) {
+                    return (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        className="relative px-5 py-2 text-sm font-bold rounded-full flex items-center gap-1.5 transition-all duration-200"
+                        style={{
+                          background: "linear-gradient(135deg, rgba(61,107,42,0.18), rgba(106,170,82,0.12))",
+                          border: "1px solid rgba(106,170,82,0.38)",
+                          color: "#b8dca8",
+                          boxShadow: "0 0 12px rgba(106,170,82,0.18)",
+                        }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                        {link.label}
+                        <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full"
+                          style={{ background: "rgba(106,170,82,0.22)", color: "#86efac" }}>
                           NEW
                         </span>
                       </Link>
@@ -295,16 +318,22 @@ export default function Header() {
                           <Link
                             to={link.href}
                             onClick={() => setMobileOpen(false)}
-                            className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${link.highlight ? "font-bold flex items-center gap-2" : "text-white/60 hover:text-white hover:bg-white/5"}`}
+                            className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${(link.highlight || link.highlightGreen) ? "font-bold flex items-center gap-2" : "text-white/60 hover:text-white hover:bg-white/5"}`}
                             style={link.highlight ? {
                               background: "linear-gradient(135deg, rgba(244,63,94,0.12), rgba(167,139,250,0.12))",
                               border: "1px solid rgba(244,63,94,0.25)",
                               color: "#f9a8d4",
+                            } : link.highlightGreen ? {
+                              background: "linear-gradient(135deg, rgba(61,107,42,0.15), rgba(106,170,82,0.1))",
+                              border: "1px solid rgba(106,170,82,0.3)",
+                              color: "#b8dca8",
                             } : {}}
                           >
                             {link.highlight && <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />}
+                            {link.highlightGreen && <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />}
                             {link.label}
                             {link.highlight && <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full ml-auto" style={{ background: "rgba(244,63,94,0.25)", color: "#fb7185" }}>NEW</span>}
+                            {link.highlightGreen && <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full ml-auto" style={{ background: "rgba(106,170,82,0.22)", color: "#86efac" }}>NEW</span>}
                           </Link>
                         ) : (
                           <a
