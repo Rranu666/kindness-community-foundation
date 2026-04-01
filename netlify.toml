@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# KindCalmUnity — serve standalone HTML at clean URL (no .html in browser)
+[[redirects]]
+  from = "/kindcalmunity"
+  to = "/kindcalmunity.html"
+  status = 200
+
 # SPA fallback — all routes served by index.html
 [[redirects]]
   from = "/*"
