@@ -10,7 +10,8 @@ import {
 import SocialWall from '@/components/synergy/SocialWall';
 import GroupChat from '@/components/synergy/GroupChat';
 import DirectMessages from '@/components/synergy/DirectMessages';
-import AIChat from '@/components/synergy/AIChat';
+import AskKindra from '@/components/synergy/AskKindra';
+import KindraFloat from '@/components/synergy/KindraFloat';
 
 function Avatar({ name, size = 32 }) {
   const initials = name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || '?';
@@ -34,7 +35,7 @@ const navItems = [
   { id: 'announcements', label: 'Announcements', icon: Megaphone },
   { id: 'directory', label: 'Team Directory', icon: Users },
   { id: 'profile', label: 'My Profile', icon: User },
-  { id: 'ai', label: 'AI Assistant', icon: Sparkles },
+  { id: 'ai', label: 'Ask Kindra', icon: Sparkles },
 ];
 
 export default function TeamPortal() {
@@ -126,7 +127,7 @@ export default function TeamPortal() {
     dashboard: 'Dashboard', wall: 'Social Wall', messages: 'Team Chat',
     dm: 'Direct Messages', tasks: 'Tasks', documents: 'Documents',
     announcements: 'Announcements', directory: 'Team Directory',
-    profile: 'My Profile', ai: 'AI Assistant',
+    profile: 'My Profile', ai: 'Ask Kindra',
   };
 
   const bg = '#030712';
@@ -307,7 +308,7 @@ export default function TeamPortal() {
           {/* AI */}
           {page === 'ai' && (
             <div className="h-full">
-              <AIChat currentUser={currentUser} />
+              <AskKindra currentUser={currentUser} />
             </div>
           )}
 
@@ -472,6 +473,14 @@ export default function TeamPortal() {
           )}
         </main>
       </div>
+
+      {/* Kindra Float — visible from every section */}
+      {page !== 'ai' && (
+        <KindraFloat
+          currentUser={currentUser}
+          onOpenFull={() => setPage('ai')}
+        />
+      )}
 
       {/* Task Modal */}
       {taskModal && (

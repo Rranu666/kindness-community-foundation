@@ -8,6 +8,7 @@ import { usePageVisibility } from "@/hooks/usePageVisibility";
 
 const navLinks = [
   { label: "Home", href: "#home" },
+  { label: "Kindlearn", href: "/kindlearn", external: true, highlightBlue: true },
   { label: "KindWave", href: "/kindwave", external: true, highlight: true },
   { label: "KindCalmUnity", href: "/kindcalmunity", external: true, native: true },
   { label: "Serve", href: "/servekindness", external: true },
@@ -119,13 +120,73 @@ export default function Header() {
           </button>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-2" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center gap-0.5" aria-label="Main navigation">
             {visibleNavLinks.map((link) => {
               const hasSubmenu = !!link.submenu;
               const isActive = activeLink === link.href;
 
               if (!link.submenu) {
+                // External URL (opens in new tab — e.g. GitHub repos)
+                if (link.externalUrl) {
+                  if (link.highlightBlue) {
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-3.5 py-1.5 text-sm font-bold rounded-full flex items-center gap-1.5 transition-all duration-200"
+                        style={{
+                          background: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))",
+                          border: "1px solid rgba(99,102,241,0.35)",
+                          color: "#c4b5fd",
+                          boxShadow: "0 0 12px rgba(99,102,241,0.2)",
+                        }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+                        {link.label}
+                        <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full"
+                          style={{ background: "rgba(99,102,241,0.25)", color: "#a5b4fc" }}>
+                          NEW
+                        </span>
+                      </a>
+                    );
+                  }
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative px-3 py-2 text-sm font-semibold text-white/60 hover:text-white transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  );
+                }
                 if (link.external) {
+                  if (link.highlightBlue) {
+                    return (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        className="relative px-3.5 py-1.5 text-sm font-bold rounded-full flex items-center gap-1.5 transition-all duration-200"
+                        style={{
+                          background: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))",
+                          border: "1px solid rgba(99,102,241,0.35)",
+                          color: "#c4b5fd",
+                          boxShadow: "0 0 12px rgba(99,102,241,0.2)",
+                        }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+                        {link.label}
+                        <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full"
+                          style={{ background: "rgba(99,102,241,0.25)", color: "#a5b4fc" }}>
+                          NEW
+                        </span>
+                      </Link>
+                    );
+                  }
                   if (link.highlight) {
                     return (
                       <Link
@@ -153,7 +214,7 @@ export default function Header() {
                       <Link
                         key={link.href}
                         to={link.href}
-                        className="relative px-5 py-2 text-sm font-bold rounded-full flex items-center gap-1.5 transition-all duration-200"
+                        className="relative px-3.5 py-1.5 text-sm font-bold rounded-full flex items-center gap-1.5 transition-all duration-200"
                         style={{
                           background: "linear-gradient(135deg, rgba(61,107,42,0.18), rgba(106,170,82,0.12))",
                           border: "1px solid rgba(106,170,82,0.38)",
@@ -177,7 +238,7 @@ export default function Header() {
                       <a
                         key={link.href}
                         href={link.href}
-                        className="relative px-5 py-2 text-base font-semibold text-white/60 hover:text-white transition-colors duration-200"
+                        className="relative px-3 py-2 text-sm font-semibold text-white/60 hover:text-white transition-colors duration-200"
                       >
                         {link.label}
                       </a>
@@ -187,7 +248,7 @@ export default function Header() {
                     <Link
                       key={link.href}
                       to={link.href}
-                      className="relative px-5 py-2 text-base font-semibold text-white/60 hover:text-white transition-colors duration-200"
+                      className="relative px-3 py-2 text-sm font-semibold text-white/60 hover:text-white transition-colors duration-200"
                     >
                       {link.label}
                     </Link>
@@ -200,7 +261,7 @@ export default function Header() {
                     onMouseEnter={() => setActiveLink(link.href)}
                     onMouseLeave={() => setActiveLink(null)}
                     onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
-                    className="relative px-5 py-2 text-base font-semibold text-white/60 hover:text-white transition-colors duration-200"
+                    className="relative px-3 py-2 text-sm font-semibold text-white/60 hover:text-white transition-colors duration-200"
                   >
                     {isActive && (
                       <motion.span
@@ -223,7 +284,7 @@ export default function Header() {
                 >
                   <button
                     onClick={() => setOpenSubmenu(openSubmenu === link.label ? null : link.label)}
-                    className="relative px-5 py-2 text-base font-semibold text-white/60 hover:text-white transition-colors duration-200 flex items-center gap-1.5"
+                    className="relative px-3 py-2 text-sm font-semibold text-white/60 hover:text-white transition-colors duration-200 flex items-center gap-1"
                   >
                     {link.label}
                     <ChevronDown className={`w-4 h-4 transition-transform ${openSubmenu === link.label ? "rotate-180" : "group-hover:rotate-180"}`} />
@@ -275,7 +336,7 @@ export default function Header() {
 
             <motion.button
               onClick={() => navigate('/synergyhub')}
-              className="ml-2 px-5 py-2 text-sm font-bold rounded-full text-white relative overflow-hidden group"
+              className="ml-1 px-4 py-1.5 text-sm font-bold rounded-full text-white relative overflow-hidden group"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               style={{ background: "linear-gradient(135deg, #f43f5e, #ec4899)" }}
@@ -327,7 +388,24 @@ export default function Header() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.05 }}
                       >
-                        {link.external && link.native ? (
+                        {link.externalUrl ? (
+                          <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setMobileOpen(false)}
+                            className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${link.highlightBlue ? "font-bold flex items-center gap-2" : "text-white/60 hover:text-white hover:bg-white/5"}`}
+                            style={link.highlightBlue ? {
+                              background: "linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12))",
+                              border: "1px solid rgba(99,102,241,0.25)",
+                              color: "#c4b5fd",
+                            } : {}}
+                          >
+                            {link.highlightBlue && <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />}
+                            {link.label}
+                            {link.highlightBlue && <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full ml-auto" style={{ background: "rgba(99,102,241,0.25)", color: "#a5b4fc" }}>NEW</span>}
+                          </a>
+                        ) : link.external && link.native ? (
                           <a
                             href={link.href}
                             onClick={() => setMobileOpen(false)}
@@ -339,7 +417,7 @@ export default function Header() {
                           <Link
                             to={link.href}
                             onClick={() => setMobileOpen(false)}
-                            className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${(link.highlight || link.highlightGreen) ? "font-bold flex items-center gap-2" : "text-white/60 hover:text-white hover:bg-white/5"}`}
+                            className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${(link.highlight || link.highlightGreen || link.highlightBlue) ? "font-bold flex items-center gap-2" : "text-white/60 hover:text-white hover:bg-white/5"}`}
                             style={link.highlight ? {
                               background: "linear-gradient(135deg, rgba(244,63,94,0.12), rgba(167,139,250,0.12))",
                               border: "1px solid rgba(244,63,94,0.25)",
@@ -348,13 +426,19 @@ export default function Header() {
                               background: "linear-gradient(135deg, rgba(61,107,42,0.15), rgba(106,170,82,0.1))",
                               border: "1px solid rgba(106,170,82,0.3)",
                               color: "#b8dca8",
+                            } : link.highlightBlue ? {
+                              background: "linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12))",
+                              border: "1px solid rgba(99,102,241,0.25)",
+                              color: "#c4b5fd",
                             } : {}}
                           >
                             {link.highlight && <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />}
                             {link.highlightGreen && <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />}
+                            {link.highlightBlue && <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />}
                             {link.label}
                             {link.highlight && <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full ml-auto" style={{ background: "rgba(244,63,94,0.25)", color: "#fb7185" }}>NEW</span>}
                             {link.highlightGreen && <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full ml-auto" style={{ background: "rgba(106,170,82,0.22)", color: "#86efac" }}>NEW</span>}
+                            {link.highlightBlue && <span className="text-[10px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded-full ml-auto" style={{ background: "rgba(99,102,241,0.25)", color: "#a5b4fc" }}>NEW</span>}
                           </Link>
                         ) : (
                           <a

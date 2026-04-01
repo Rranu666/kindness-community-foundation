@@ -93,7 +93,7 @@ export function buildDailyPath(progress, srsData, langId) {
       priority,
       urgency,
       emoji: '📚',
-      route: `/lesson?lang=${langId}&day=${currentDay}`,
+      route: `/kindlearn/lesson?lang=${langId}&day=${currentDay}`,
     });
   }
 
@@ -110,7 +110,7 @@ export function buildDailyPath(progress, srsData, langId) {
       priority,
       urgency,
       emoji: '🧠',
-      route: `/review?lang=${langId}`,
+      route: `/kindlearn/review?lang=${langId}`,
       badge: `${struggledCount} words`,
     });
   }
@@ -136,7 +136,7 @@ export function buildDailyPath(progress, srsData, langId) {
       priority,
       urgency,
       emoji: '🃏',
-      route: `/flashcards?lang=${langId}`,
+      route: `/kindlearn/flashcards?lang=${langId}`,
       badge: `${dueCount} due`,
     });
   }
@@ -154,7 +154,7 @@ export function buildDailyPath(progress, srsData, langId) {
       priority: listenPriority,
       urgency: 'low',
       emoji: '🎧',
-      route: `/listen?lang=${langId}`,
+      route: `/kindlearn/listen?lang=${langId}`,
     });
   }
 
@@ -170,7 +170,7 @@ export function buildDailyPath(progress, srsData, langId) {
       priority: 75,
       urgency: 'medium',
       emoji: '🎯',
-      route: `/flashcards?lang=${langId}&cat=${cat}`,
+      route: `/kindlearn/flashcards?lang=${langId}&cat=${cat}`,
       badge: cat,
     });
   }
